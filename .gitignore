@@ -1,0 +1,16 @@
+# Build artifacts
+dist/
+logs/
+# macOS
+.DS_Store
+**/.DS_Store
+Test-SecondBrain/
+*.zip
+# Dev config
+.claude/settings.local.json
+.mcp.json
+# Secrets — never commit
+**/.env
+!**/.env.example
+# GSD planning artifacts (internal workflow — not for upstream)
+.planning/

@@ -1,0 +1,6 @@
+# AChatGPT Configuration
+# Copy this to .achatgpt/.env and fill in your values.
+ACHATGPT_API_KEY="sk-your-api-key-here"
+ACHATGPT_PROXY_URL="https://your-proxy-url.workers.dev"
+ACHATGPT_REQUEST_TIMEOUT="60"
+ACHATGPT_RETRY_ATTEMPTS="3"

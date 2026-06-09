@@ -1,0 +1,36 @@
+# Model compatibility matrix: crew tier → AChatGPT model
+# Used by adapter_finalize and runtime routing.
+
+tiers:
+  low:  "gpt-4o-mini"
+  mid:  "gpt-5.4"
+  high: "o3"
+
+models:
+  claude-haiku-4-5-20251001:
+    achatgpt_equivalent: "gpt-4o-mini"
+    cost_tier: "low"
+    notes: "Fast, cost-effective; quick tasks and search"
+
+  claude-sonnet-4-20250514:
+    achatgpt_equivalent: "gpt-5.4"
+    cost_tier: "mid"
+    notes: "Balanced performance; default for most agents"
+
+  claude-opus-4-20250805:
+    achatgpt_equivalent: "o3"
+    cost_tier: "high"
+    notes: "Extended reasoning; higher latency (~30-60s)"
+
+routing:
+  - pattern: "(search|quick|summary|tag|triage)"
+    model: "gpt-4o-mini"
+  - pattern: "(.*)"
+    model: "gpt-5.4"
+
+special_cases:
+  embedding:
+    endpoint: "/v3/embeddings"
+    model: "doubao-embedding-text-240715"
+    extra_headers:
+      x-api-type: "ark"

@@ -1,0 +1,18 @@
+{
+  "achatgpt": {
+    "proxy_url": "https://your-proxy-url.workers.dev",
+    "api_key_env_var": "ACHATGPT_API_KEY",
+    "request_timeout_seconds": 60,
+    "retry_attempts": 3,
+    "retry_backoff_multiplier": 2,
+    "supported_endpoints": [
+      "/chat/completions",
+      "/v3/embeddings"
+    ],
+    "headers": {
+      "Authorization": "Bearer {ACHATGPT_API_KEY}",
+      "Content-Type": "application/json",
+      "x-api-type": "openai"
+    }
+  }
+}

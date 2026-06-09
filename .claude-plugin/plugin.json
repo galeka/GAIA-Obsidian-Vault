@@ -1,0 +1,29 @@
+{
+  "name": "gaia-obsidian",
+  "version": "1.0.1",
+  "description": "GAIA (Graph-Augmented Intelligence Agent) \u2014 a multi-agent crew that manages your Obsidian vault through natural conversation. 9 agents, 17 skills, built on Zettelkasten and P.A.R.A. Works in any language.",
+  "author": {
+    "name": "galeka",
+    "url": "https://github.com/galeka/gaia-obsidian"
+  },
+  "repository": "https://github.com/galeka/gaia-obsidian",
+  "license": "MIT",
+  "keywords": [
+    "obsidian",
+    "vault",
+    "knowledge-management",
+    "zettelkasten",
+    "PARA",
+    "note-taking",
+    "second-brain",
+    "AI-agents",
+    "claude",
+    "transcription",
+    "gmail",
+    "google-calendar",
+    "email",
+    "productivity",
+    "multilingual",
+    "lark"
+  ]
+}
