@@ -1,4 +1,4 @@
-# Getting Started with My Brain Is Full - Crew
+# Getting Started with GAIA
 
 A step-by-step guide for setting up your AI-powered vault. No technical background required.
 

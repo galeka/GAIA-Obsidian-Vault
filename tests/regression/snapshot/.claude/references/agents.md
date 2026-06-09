@@ -1,4 +1,4 @@
-# My Brain Is Full - Crew — Agent Directory
+# GAIA — Agent Directory
 
 This reference is shared across all agents. Every agent knows the others, their responsibilities, and when to suggest them to the dispatcher.
 
@@ -155,8 +155,8 @@ Custom agents are created by the Architect and live in `.claude/agents/` alongsi
 
 For the definitive list of all agents (core + custom) with capabilities, inputs, outputs, and status, see `.claude/references/agents-registry.md`.
 
-<!-- MBIFC:CUSTOM_AGENTS_START -->
-<!-- MBIFC:CUSTOM_AGENTS_END -->
+<!-- GAIA:CUSTOM_AGENTS_START -->
+<!-- GAIA:CUSTOM_AGENTS_END -->
 
 ### How Custom Agents Coordinate
 

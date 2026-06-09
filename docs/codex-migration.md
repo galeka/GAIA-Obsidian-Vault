@@ -1,6 +1,6 @@
 # Migrating to Codex CLI
 
-This guide covers how to move an existing My Brain Is Full — Crew installation from Claude Code, Gemini CLI, or OpenCode to Codex CLI. It also explains what transfers automatically and what needs manual attention.
+This guide covers how to move an existing GAIA installation from Claude Code, Gemini CLI, or OpenCode to Codex CLI. It also explains what transfers automatically and what needs manual attention.
 
 > **If you are doing a fresh install** (not migrating), follow [docs/codex-cli.md](codex-cli.md) instead.
 
@@ -131,7 +131,7 @@ model = "o4-mini"
 
 [agent.prompt]
 content = """
-You are the Budget Tracker agent for the My Brain Is Full — Crew system.
+You are the Budget Tracker agent for the GAIA system.
 ... (your agent instructions here)
 """
 ```

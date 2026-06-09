@@ -1,4 +1,4 @@
-# Contributing to My Brain Is Full - Crew
+# Contributing to GAIA
 
 Thank you for your interest in making the Crew better. This project was born from personal need, and it grows through shared ones.
 

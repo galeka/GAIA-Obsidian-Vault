@@ -260,7 +260,7 @@ EOF
   adapter_translate_hooks "$src/hooks" "$dst"
   local result=0
   [[ -f "$dst/.opencode/hooks/protect.sh" ]] || { echo "protect.sh not copied"; result=1; }
-  [[ -f "$dst/.opencode/plugins/mbifc-hooks.js" ]] || { echo "mbifc-hooks.js not generated"; result=1; }
+  [[ -f "$dst/.opencode/plugins/gaia-hooks.js" ]] || { echo "gaia-hooks.js not generated"; result=1; }
   rm -rf "$src" "$dst"
   return $result
 }
@@ -284,7 +284,7 @@ triggers:
 EOF
   touch "$src/hooks/protect.sh" "$src/hooks/notify.sh"
   adapter_translate_hooks "$src/hooks" "$dst"
-  local plugin="$dst/.opencode/plugins/mbifc-hooks.js"
+  local plugin="$dst/.opencode/plugins/gaia-hooks.js"
   local result=0
   grep -q '"name": "protect"' "$plugin" || { echo "protect not in registry"; result=1; }
   grep -q '"name": "notify"' "$plugin" || { echo "notify not in registry"; result=1; }
@@ -302,7 +302,7 @@ test_oc_translate_hooks_no_hooks_dir_is_noop() {
   # src has no hooks/ — should not error, should not create plugin file
   adapter_translate_hooks "$src/hooks" "$dst"
   local result=0
-  [[ ! -f "$dst/.opencode/plugins/mbifc-hooks.js" ]] || { echo "plugin should not exist when no hooks"; result=1; }
+  [[ ! -f "$dst/.opencode/plugins/gaia-hooks.js" ]] || { echo "plugin should not exist when no hooks"; result=1; }
   rm -rf "$src" "$dst"
   return $result
 }
@@ -398,7 +398,7 @@ EOF
   [[ -f "$dst/.opencode/skills/onboarding/SKILL.md" ]]        || { echo "skill missing"; result=1; }
   [[ -f "$dst/.opencode/references/policy.md" ]]              || { echo "reference missing"; result=1; }
   [[ -f "$dst/.opencode/hooks/protect.sh" ]]                  || { echo "hook script missing"; result=1; }
-  [[ -f "$dst/.opencode/plugins/mbifc-hooks.js" ]]            || { echo "plugin missing"; result=1; }
+  [[ -f "$dst/.opencode/plugins/gaia-hooks.js" ]]            || { echo "plugin missing"; result=1; }
   [[ -f "$dst/opencode.json" ]]                               || { echo "opencode.json missing"; result=1; }
 
   rm -rf "$src" "$dst"

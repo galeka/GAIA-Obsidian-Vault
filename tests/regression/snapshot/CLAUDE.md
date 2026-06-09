@@ -221,7 +221,7 @@ This crew uses a vault map (`Meta/vault-map.md`) to adapt to any Obsidian vault 
 
 # Project Info
 
-## My Brain Is Full - Crew
+## GAIA
 
 A crew of 8 AI subagents that manage an Obsidian vault through natural conversation.
 
@@ -235,13 +235,13 @@ If you don't have one yet, open [Obsidian](https://obsidian.md) and create a new
 
 ```bash
 cd /path/to/your-vault
-git clone https://github.com/gnekt/My-Brain-Is-Full-Crew.git
+git clone https://github.com/galeka/GAIA.git
 ```
 
 ### Step 3: Run the installer
 
 ```bash
-cd My-Brain-Is-Full-Crew
+cd GAIA
 bash scripts/launchme.sh
 ```
 
@@ -253,7 +253,7 @@ your-vault/
 │   ├── agents/          ← 8 crew agents (auto-loaded at session start)
 │   └── references/      ← shared docs the agents read
 ├── .mcp.json            ← Gmail + Calendar (optional, if you chose yes)
-├── My-Brain-Is-Full-Crew/  ← the repo (for updates)
+├── GAIA/  ← the repo (for updates)
 └── ... your notes
 ```
 
@@ -266,7 +266,7 @@ your-vault/
 ### Updating
 
 ```bash
-cd /path/to/your-vault/My-Brain-Is-Full-Crew
+cd /path/to/your-vault/GAIA
 git pull
 bash scripts/updateme.sh
 ```
@@ -282,7 +282,7 @@ Only changed files are overwritten. Your vault notes are never touched.
 ## Project Structure
 
 ```
-My-Brain-Is-Full-Crew/
+GAIA/
 ├── agents/                   The 8 subagents
 │   ├── architect.md            Vault setup & onboarding
 │   ├── scribe.md               Text capture & note creation

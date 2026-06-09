@@ -1,6 +1,6 @@
 # Codex CLI Guide
 
-This guide covers everything you need to install, update, and run My Brain Is Full — Crew on [Codex CLI](https://openai.com/codex) (`@openai/codex`).
+This guide covers everything you need to install, update, and run GAIA on [Codex CLI](https://openai.com/codex) (`@openai/codex`).
 
 > **Windows note:** Codex CLI's Windows support is experimental. If you are on Windows, running inside WSL (Windows Subsystem for Linux) is strongly recommended.
 
@@ -99,7 +99,7 @@ Skills install to `.agents/skills/` for Codex (not `.codex/skills/`). Codex CLI 
 
 ### Agent chaining (max_depth constraint)
 
-Codex CLI enforces `agents.max_depth = 1`. This means child agents can only go one level deep. My Brain Is Full — Crew handles this through root-context orchestration:
+Codex CLI enforces `agents.max_depth = 1`. This means child agents can only go one level deep. GAIA handles this through root-context orchestration:
 
 - The dispatcher embeds orchestration instructions in the root context (not in a child)
 - Child agents (`spawn_agent`) finish one bounded task and return to root

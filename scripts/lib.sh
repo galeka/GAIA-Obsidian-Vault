@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# My Brain Is Full - Crew :: Shared library
+# GAIA :: Shared library
 # Sourced by launchme.sh and updateme.sh — do NOT execute directly.
 # =============================================================================
 
@@ -66,14 +66,14 @@ copy_tree_if_changed() {
 }
 
 # ── _insert_after_start_marker <dst> <content> ───────────────────────────────
-# Inserts <content> immediately after the MBIFC:CUSTOM_AGENTS_START line in dst.
+# Inserts <content> immediately after the GAIA:CUSTOM_AGENTS_START line in dst.
 # dst must already exist and contain the marker.
 _insert_after_start_marker() {
   local dst="$1" content="$2"
   [[ -z "$content" ]] && return 0
 
   local start_line
-  start_line=$(grep -n '<!-- MBIFC:CUSTOM_AGENTS_START -->' "$dst" | head -1 | cut -d: -f1)
+  start_line=$(grep -n '<!-- GAIA:CUSTOM_AGENTS_START -->' "$dst" | head -1 | cut -d: -f1)
   [[ -z "$start_line" ]] && return 0
 
   local saved_file tmpfile
@@ -94,8 +94,8 @@ _insert_after_start_marker() {
 }
 
 # ── merge_marked_file <src> <dst> ─────────────────────────────────────────────
-# Copies src to dst, preserving content between <!-- MBIFC:CUSTOM_AGENTS_START -->
-# and <!-- MBIFC:CUSTOM_AGENTS_END --> markers from the existing dst.
+# Copies src to dst, preserving content between <!-- GAIA:CUSTOM_AGENTS_START -->
+# and <!-- GAIA:CUSTOM_AGENTS_END --> markers from the existing dst.
 #
 # Handles three cases:
 #   1. dst doesn't exist              → plain copy
@@ -117,8 +117,8 @@ merge_marked_file() {
   fi
 
   local src_has_markers=0 dst_has_markers=0
-  grep -q '<!-- MBIFC:CUSTOM_AGENTS_START -->' "$src" 2>/dev/null && src_has_markers=1
-  grep -q '<!-- MBIFC:CUSTOM_AGENTS_START -->' "$dst" 2>/dev/null && dst_has_markers=1
+  grep -q '<!-- GAIA:CUSTOM_AGENTS_START -->' "$src" 2>/dev/null && src_has_markers=1
+  grep -q '<!-- GAIA:CUSTOM_AGENTS_START -->' "$dst" 2>/dev/null && dst_has_markers=1
 
   # src has no markers → standard copy-if-changed
   if [[ $src_has_markers -eq 0 ]]; then
@@ -145,7 +145,7 @@ merge_marked_file() {
 
     if [[ -n "$custom_rows" ]]; then
       _insert_after_start_marker "$dst" "$custom_rows"
-      warn "Migrated legacy custom agents in $(basename "$dst") to MBIFC marker format"
+      warn "Migrated legacy custom agents in $(basename "$dst") to GAIA marker format"
     fi
     return 0
   fi
@@ -154,8 +154,8 @@ merge_marked_file() {
   # only update dst if the result actually differs (ensures idempotency).
   local saved_content
   saved_content=$(awk \
-    '/<!-- MBIFC:CUSTOM_AGENTS_START -->/{f=1; next}
-     /<!-- MBIFC:CUSTOM_AGENTS_END -->/{f=0}
+    '/<!-- GAIA:CUSTOM_AGENTS_START -->/{f=1; next}
+     /<!-- GAIA:CUSTOM_AGENTS_END -->/{f=0}
      f{print}' \
     "$dst")
 
@@ -172,7 +172,7 @@ merge_marked_file() {
 }
 
 # ── Manifest helpers ──────────────────────────────────────────────────────────
-# Single unified manifest at $VAULT_DIR/.{framework}/.mbifc-manifest
+# Single unified manifest at $VAULT_DIR/.{framework}/.gaia-manifest
 # Format: INI-style with [section] headers, one entry per line.
 #
 # PLATFORM_VAULT_DIR must be set before calling these functions (e.g.
@@ -181,7 +181,7 @@ merge_marked_file() {
 
 manifest_read() {
   local section="$1"
-  local file="${PLATFORM_VAULT_DIR:-$VAULT_DIR/.claude}/.mbifc-manifest"
+  local file="${PLATFORM_VAULT_DIR:-$VAULT_DIR/.claude}/.gaia-manifest"
   [[ -f "$file" ]] || return 0
   awk -v sec="[$section]" '
     $0 == sec         { found=1; next }
@@ -193,7 +193,7 @@ manifest_read() {
 manifest_write() {
   local section="$1"; shift
   local entries=("$@")
-  local file="${PLATFORM_VAULT_DIR:-$VAULT_DIR/.claude}/.mbifc-manifest"
+  local file="${PLATFORM_VAULT_DIR:-$VAULT_DIR/.claude}/.gaia-manifest"
   mkdir -p "$(dirname "$file")"
   local tmpfile; tmpfile="$(mktemp)"
   local in_section=0 section_written=0
@@ -229,7 +229,7 @@ manifest_write() {
 
 manifest_remove() {
   local section="$1" name="$2"
-  local file="${PLATFORM_VAULT_DIR:-$VAULT_DIR/.claude}/.mbifc-manifest"
+  local file="${PLATFORM_VAULT_DIR:-$VAULT_DIR/.claude}/.gaia-manifest"
   [[ -f "$file" ]] || return 0
   local tmpfile; tmpfile="$(mktemp)"
   local in_section=0
@@ -250,7 +250,7 @@ manifest_migrate() {
   local refs_mf="$_fw_dir/references/.core-manifest"
   [[ -f "$agents_mf" ]] || [[ -f "$refs_mf" ]] || return 0
 
-  warn "Migrating legacy manifests to unified .mbifc-manifest..."
+  warn "Migrating legacy manifests to unified .gaia-manifest..."
 
   if [[ -f "$agents_mf" ]]; then
     local entries=()
@@ -266,7 +266,7 @@ manifest_migrate() {
     rm "$refs_mf"
   fi
 
-  success "Manifest migrated to $(basename "$_fw_dir")/.mbifc-manifest"
+  success "Manifest migrated to $(basename "$_fw_dir")/.gaia-manifest"
 }
 
 # ── Deprecation ───────────────────────────────────────────────────────────────
@@ -310,7 +310,7 @@ deprecate_removed() {
 # to stdout. All respect VERBOSE_COPY for per-file logging.
 #
 # USER_MUTABLE_REFS: space-separated list of reference filenames that may
-# contain user-added content between MBIFC markers. These use merge_marked_file
+# contain user-added content between GAIA markers. These use merge_marked_file
 # instead of copy_if_changed.
 USER_MUTABLE_REFS="agents-registry.md agents.md"
 
@@ -494,7 +494,7 @@ print_banner() {
   local title="$1"
   echo ""
   echo -e "${BOLD}╔══════════════════════════════════════════╗${NC}"
-  echo -e "${BOLD}║  My Brain Is Full - Crew :: ${title}${NC}"
+  echo -e "${BOLD}║  GAIA :: ${title}${NC}"
   echo -e "${BOLD}╚══════════════════════════════════════════╝${NC}"
   echo ""
 }

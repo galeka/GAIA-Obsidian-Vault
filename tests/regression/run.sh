@@ -18,7 +18,7 @@ DIST_DIR="$REPO_DIR/dist/claude-code"
 # Files that exist only at install-time or are generated outside the adapter pipeline.
 # These are excluded from both sides of the comparison.
 EXCLUDE_PATTERNS=(
-  "./.claude/.mbifc-manifest"    # runtime install manifest, not a build artifact
+  "./.claude/.gaia-manifest"    # runtime install manifest, not a build artifact
   "./.claude-plugin/plugin.json" # adapter-only artifact, not present in old install
 )
 

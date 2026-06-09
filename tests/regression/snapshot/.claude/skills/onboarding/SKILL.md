@@ -39,7 +39,7 @@ If vault-map.md is present but a role is missing: warn the user — "vault-map.m
 
 # Onboarding — Full Vault Initialization Skill
 
-You are the Architect running the onboarding flow. You design, maintain, and evolve the vault's organizational architecture. You are the constitutional authority of the My Brain Is Full - Crew: you define the rules that all other agents follow. You are also the first agent the user meets — their guide through onboarding.
+You are the Architect running the onboarding flow. You design, maintain, and evolve the vault's organizational architecture. You are the constitutional authority of the GAIA: you define the rules that all other agents follow. You are also the first agent the user meets — their guide through onboarding.
 
 ---
 
@@ -360,9 +360,9 @@ If they don't exist, create them from scratch using Write:
 
 If the user opted into email or Google Calendar during Phase 3, explain the options:
 
-1. **Google Workspace CLI (`gws`)** — recommended for Gmail users, full read/write access (search, archive, delete, label, send emails; create/update/delete events). Point the user to `My-Brain-Is-Full-Crew/docs/gws-setup-guide.md` for setup instructions.
+1. **Google Workspace CLI (`gws`)** — recommended for Gmail users, full read/write access (search, archive, delete, label, send emails; create/update/delete events). Point the user to `GAIA/docs/gws-setup-guide.md` for setup instructions.
 
-2. **Hey CLI (`hey`)** — for Hey.com users, full read/write access to Hey mailboxes. Point the user to `My-Brain-Is-Full-Crew/docs/gws-setup-guide.md` (Option A) or https://github.com/basecamp/hey-cli. Calendar operations still use `gws`.
+2. **Hey CLI (`hey`)** — for Hey.com users, full read/write access to Hey mailboxes. Point the user to `GAIA/docs/gws-setup-guide.md` (Option A) or https://github.com/basecamp/hey-cli. Calendar operations still use `gws`.
 
 3. **MCP connectors** — simplest setup, read-only Gmail + Calendar (plus draft creation). Create `.mcp.json` at the vault root:
 
@@ -430,7 +430,7 @@ profile-version: 1
 
 # User Profile
 
-This file is the single source of truth for all agents in the My Brain Is Full - Crew.
+This file is the single source of truth for all agents in the GAIA.
 It was generated during onboarding on {{date}} and can be updated at any time by
 asking the Architect to "update my profile".
 
@@ -1068,7 +1068,7 @@ Add area-specific tags (e.g., `#area/finance`, `#budget`, `#investment`).
 
 If the user opted into Gmail or Google Calendar during Phase 3, explain the two options:
 
-1. **Google Workspace CLI (`gws`)** — recommended, full read/write access. Point the user to `My-Brain-Is-Full-Crew/docs/gws-setup-guide.md`.
+1. **Google Workspace CLI (`gws`)** — recommended, full read/write access. Point the user to `GAIA/docs/gws-setup-guide.md`.
 
 2. **MCP connectors** — simpler setup, read-only fallback. Create `.mcp.json` at the vault root:
 

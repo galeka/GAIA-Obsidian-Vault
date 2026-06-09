@@ -1,7 +1,7 @@
 // =============================================================================
 // bash-executor.js — Spawn a bash script and pipe neutral JSON context to stdin
 // =============================================================================
-// This file is vendored verbatim into the generated mbifc-hooks.js plugin at
+// This file is vendored verbatim into the generated gaia-hooks.js plugin at
 // build time. It must not require any npm modules beyond Node.js builtins so
 // that opencode's embedded runtime can execute it without installation.
 // =============================================================================

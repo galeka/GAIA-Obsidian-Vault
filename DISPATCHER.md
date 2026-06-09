@@ -224,7 +224,7 @@ This crew uses a vault map (`Meta/vault-map.md`) to adapt to any Obsidian vault 
 
 # Project Info
 
-## My Brain Is Full - Crew
+## GAIA
 
 A crew of 8 AI subagents that manage an Obsidian vault through natural conversation.
 

@@ -211,7 +211,7 @@ _oc_hook_registry_json() {
 
 # adapter_translate_hooks <source_hooks_dir> <dest_root>
 # Copies each hook's .sh script to dst/.opencode/hooks/ and generates a single
-# dst/.opencode/plugins/mbifc-hooks.js plugin containing the vendored bash
+# dst/.opencode/plugins/gaia-hooks.js plugin containing the vendored bash
 # executor plus a hook registry synthesised from the source .hook.yaml files.
 adapter_translate_hooks() {
   local src="$1" dst="$2"
@@ -253,7 +253,7 @@ adapter_translate_hooks() {
   # Substitute placeholders by reading the template line-by-line.
   # We avoid sed/awk gsub because the replacement strings (JS code, JSON)
   # contain backslashes and ampersands that break regex replacement.
-  local out="$plugins_out/mbifc-hooks.js"
+  local out="$plugins_out/gaia-hooks.js"
   local executor_file="$tpl_dir/bash-executor.js"
   local stub_file="$tpl_dir/plugin-stub.js.tmpl"
   while IFS= read -r line; do

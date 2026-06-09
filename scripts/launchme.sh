@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# My Brain Is Full - Crew :: Installer
+# GAIA :: Installer
 # =============================================================================
 # Run this from inside the cloned repo, which should be inside your vault:
 #

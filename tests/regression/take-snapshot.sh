@@ -24,7 +24,7 @@ cp "$DIST_DIR/CLAUDE.md" "$SNAPSHOT_DIR/CLAUDE.md"
 [[ -f "$DIST_DIR/.mcp.json" ]] && cp "$DIST_DIR/.mcp.json" "$SNAPSHOT_DIR/.mcp.json"
 
 # Remove non-deterministic / install-only artifacts
-rm -f "$SNAPSHOT_DIR/.claude/.mbifc-manifest"
+rm -f "$SNAPSHOT_DIR/.claude/.gaia-manifest"
 rm -rf "$SNAPSHOT_DIR/.claude-plugin"
 
 echo "Snapshot saved to $SNAPSHOT_DIR"
