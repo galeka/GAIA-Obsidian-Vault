@@ -67,8 +67,8 @@ When you detect work that another agent should handle, include a `### Suggested 
 - **Context**: Meeting note placed in {{inbox}}/. Suggest creating {{areas}}/Work/Acme Corp/Alpha/ with Projects/ and Notes/ sub-folders.
 ```
 
-For the full orchestration protocol, see `.platform/references/agent-orchestration.md`.
-For the agent registry, see `.platform/references/agents-registry.md`.
+For the full orchestration protocol, see `.claude/references/agent-orchestration.md`.
+For the agent registry, see `.claude/references/agents-registry.md`.
 
 ### When to suggest a new agent
 
