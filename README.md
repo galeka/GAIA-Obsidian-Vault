@@ -132,7 +132,7 @@ cd ~/Documents/MyBrain
 Clone the repo and run the installer:
 
 ```bash
-git clone https://github.com/galeka/gaia-obsidian.git GAIA
+git clone https://github.com/galeka/GAIA-Obsidian-Vault.git GAIA
 cd GAIA
 bash scripts/launchme.sh
 ```
