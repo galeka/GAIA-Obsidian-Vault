@@ -262,7 +262,7 @@ cd /mnt/c/Users/YourName/Documents/MyBrain
 Clone and install:
 
 ```bash
-git clone https://github.com/galeka/gaia-obsidian.git](https://github.com/galeka/GAIA-Obsidian-Vault.git GAIA
+git clone https://github.com/galeka/GAIA-Obsidian-Vault.git GAIA
 cd GAIA
 bash scripts/launchme.sh
 ```
