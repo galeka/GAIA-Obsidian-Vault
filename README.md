@@ -1,6 +1,6 @@
 # GAIA — Graph-Augmented Intelligence Agent for Obsidian
 
-> An AI crew that manages your Obsidian vault through natural conversation. 9 agents, 17 skills, built on the Zettelkasten method and P.A.R.A. organization — with optional AChatGPT backend (GPT-4o, o3) and Lark integration.
+> An AI crew that manages your Obsidian vault through natural conversation. 8 agents, 17 skills, built on the Zettelkasten method and P.A.R.A. organization — with optional AChatGPT backend (GPT-4o, o3) and Lark integration.
 
 ---
 
@@ -14,7 +14,7 @@ The core philosophy: **your vault should think with you, not just store things f
 
 ## The Crew
 
-### 9 Agents
+### 8 Agents
 
 Agents handle reactive, single-shot operations. They activate automatically based on what you say.
 
@@ -28,7 +28,6 @@ Agents handle reactive, single-shot operations. They activate automatically base
 | **Librarian** | Vault health checks, consistency, analytics |
 | **Transcriber** | Audio and meeting transcription |
 | **Postman** | Email (Gmail / Hey.com) and Google Calendar |
-| **Lark Sync** | Sync Lark messages, tasks, docs, and calendar into vault notes |
 
 ### 17 Skills
 
@@ -272,7 +271,7 @@ Select your platform when prompted.
 > **Claude Code on Windows (native, no WSL):**
 > Install [Git for Windows](https://git-scm.com) first, then open **Git Bash** (right-click in your vault folder → *Git Bash Here*):
 > ```bash
-> git clone https://github.com/galeka/gaia-obsidian.git GAIA
+> git clone https://github.com/galeka/GAIA-Obsidian-Vault.git GAIA
 > cd GAIA
 > bash scripts/launchme.sh
 > ```
