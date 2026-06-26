@@ -7,7 +7,7 @@
 # =============================================================================
 
 ACHATGPT_API_KEY="${ACHATGPT_API_KEY:?ERROR: ACHATGPT_API_KEY not set}"
-ACHATGPT_PROXY_URL="${ACHATGPT_PROXY_URL:-https://your-proxy-url.workers.dev}"
+ACHATGPT_PROXY_URL="${ACHATGPT_PROXY_URL:?ERROR: ACHATGPT_PROXY_URL is not set}"
 ACHATGPT_TIMEOUT="${ACHATGPT_REQUEST_TIMEOUT:-60}"
 ACHATGPT_RETRIES="${ACHATGPT_RETRY_ATTEMPTS:-3}"
 

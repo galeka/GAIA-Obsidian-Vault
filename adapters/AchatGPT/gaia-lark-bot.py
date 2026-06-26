@@ -4,14 +4,16 @@ GAIA Lark Bot Handler
 Connects Lark messages to ./achat.sh for Obsidian vault updates.
 
 Installation:
-  pip install flask python-dotenv requests
+  pip install flask python-dotenv requests flask-limiter
 
 Setup:
   1. Copy gaia-lark-bot.py to your AchatGPT adapter directory
   2. Create .env file with Lark credentials (see below)
   3. Run: python gaia-lark-bot.py
-  4. Set webhook URL in Lark console to: https://my-gaia-bot.loca.lt/webhook
-     (replace with your localtunnel URL)
+  4. Expose the webhook via a secure tunnel and register the URL in Lark console.
+     For production use Cloudflare Tunnel (cloudflared) — it authenticates the
+     tunnel and does not expose an open port. localtunnel is acceptable for
+     local testing only; do not use it in production.
 
 Environment variables (.env file):
   LARK_APP_ID=your_lark_app_id_here
@@ -35,6 +37,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 import requests
 from flask import Flask, request, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 # Load environment variables
 load_dotenv()
@@ -79,20 +84,46 @@ LARK_API_BASE = "https://open.larksuite.com/open-apis"
 
 app = Flask(__name__)
 
+# Trust one upstream proxy hop so Flask-Limiter sees real client IPs
+# when running behind nginx or Cloudflare Tunnel (FIX-10).
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1)
+
+# Rate limiting: 30 requests/minute per IP (FIX-06)
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["30 per minute"],
+    storage_uri="memory://",
+)
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Lark Signature Verification
 # ─────────────────────────────────────────────────────────────────────────────
 
-def verify_lark_signature(timestamp: str, nonce: str, body: str) -> bool:
-    """Verify that the request came from Lark."""
-    # Lark verification: sign(timestamp + nonce + secret)
-    message = timestamp + nonce + LARK_APP_SECRET
-    signature = hmac.new(
-        message.encode('utf-8'),
-        body.encode('utf-8'),
+def verify_lark_signature(timestamp: str, nonce: str, body: str, signature: str) -> bool:
+    """Verify that the request came from Lark using HMAC-SHA256.
+
+    Lark spec: HMAC-SHA256(key=LARK_APP_SECRET, msg=timestamp+nonce+body)
+    compared against the X-Lark-Signature request header.
+
+    Args:
+        timestamp: X-Lark-Request-Timestamp header value
+        nonce:     X-Lark-Request-Nonce header value
+        body:      raw request body as text
+        signature: X-Lark-Signature header value to compare against
+
+    Returns:
+        True if signature is valid, False otherwise.
+    """
+    if not LARK_APP_SECRET:
+        return False
+    message = (timestamp + nonce + body).encode("utf-8")
+    expected = hmac.new(
+        LARK_APP_SECRET.encode("utf-8"),
+        message,
         hashlib.sha256
     ).hexdigest()
-    return True  # For now, skip verification (can enable later)
+    return hmac.compare_digest(expected, signature)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -197,8 +228,17 @@ def query_vault(message: str, source: str = "lark") -> str:
 @app.route("/webhook", methods=["POST"])
 def lark_webhook():
     """Receive and process Lark webhook events."""
+    # Verify Lark signature before processing anything (FIX-01 / FIX-02)
+    timestamp = request.headers.get("X-Lark-Request-Timestamp", "")
+    nonce     = request.headers.get("X-Lark-Request-Nonce", "")
+    sig       = request.headers.get("X-Lark-Signature", "")
+    raw_body  = request.get_data(as_text=True)
+
+    if not verify_lark_signature(timestamp, nonce, raw_body, sig):
+        return jsonify({"error": "Invalid signature"}), 403
+
     try:
-        body = request.get_json()
+        body = json.loads(raw_body)
 
         # Lark sends a challenge on first setup
         if body.get("type") == "url_verification":
@@ -248,7 +288,7 @@ def health():
         "status": "running",
         "timestamp": datetime.now().isoformat(),
         "vault": VAULT_ROOT,
-        "tunnel": "https://my-gaia-bot.loca.lt"
+        "tunnel": os.getenv("WEBHOOK_PUBLIC_URL", "not configured")
     })
 
 
@@ -274,7 +314,8 @@ if __name__ == "__main__":
     print(f"   Vault: {VAULT_ROOT}")
     print(f"   Script: {ACHAT_SCRIPT}")
     print(f"   Health: http://localhost:5000/health")
-    print(f"   Webhook: https://my-gaia-bot.loca.lt/webhook (update in Lark console)")
+    webhook_url = os.getenv("WEBHOOK_PUBLIC_URL", "<not set — configure WEBHOOK_PUBLIC_URL>")
+    print(f"   Webhook: {webhook_url}/webhook (register this in Lark console)")
     print()
 
     app.run(host="localhost", port=5000, debug=False)

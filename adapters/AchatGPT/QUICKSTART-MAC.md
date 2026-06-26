@@ -8,13 +8,22 @@
 cd ~/path/to/your-vault/GAIA/adapters/AchatGPT
 ```
 
-## 3. Make the script executable (once)
+## 3. Install Python dependencies (once)
+
+```bash
+pip install -r requirements.txt
+```
+
+> Only needed if you're running the Lark bot (`gaia-lark-bot.py`).
+> The CLI tool (`achat.sh` / `vault-chat.py`) uses Python stdlib only — no install required.
+
+## 4. Make the script executable (once)
 
 ```bash
 chmod +x achat.sh
 ```
 
-## 4. Set your vault path in achat.sh
+## 5. Set your vault path in achat.sh
 
 Open `achat.sh` and edit this line:
 
@@ -22,7 +31,7 @@ Open `achat.sh` and edit this line:
 export VAULT_ROOT="${VAULT_ROOT:-/path/to/your/vault}"
 ```
 
-## 5. Run it
+## 6. Run it
 
 ```bash
 ./achat.sh "What projects do I have?"

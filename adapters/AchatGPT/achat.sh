@@ -14,7 +14,7 @@
 
 # ── Configuration ─────────────────────────────────────────────────────────────
 export ACHATGPT_API_KEY="${ACHATGPT_API_KEY:-}"
-export ACHATGPT_MODEL="${ACHATGPT_MODEL:-gpt-5.4}"
+export ACHATGPT_MODEL="${ACHATGPT_MODEL:-gpt-4o}"
 
 # ── Auto-detect vault path (opsi 1+2: env var + OS detection) ─────────────────
 if [ -n "$VAULT_ROOT" ]; then

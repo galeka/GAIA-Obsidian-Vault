@@ -77,6 +77,22 @@ VAULT_TOOLS=$(jq -n '[
   }
 ]')
 
+# ── Path safety ───────────────────────────────────────────────────────────────
+
+# safe_path <base> <relative>
+# Resolves $base/$relative and aborts if it escapes $base.
+# Prints the resolved absolute path on success; prints an error and returns 1 on failure.
+safe_path() {
+  local base="$1" rel="$2"
+  local full; full="$(realpath -m "$base/$rel" 2>/dev/null)"
+  # Trailing-slash comparison prevents /vault-escape matching /vault/*
+  if [[ "$full/" != "$base/"* ]]; then
+    echo "ERROR: path traversal rejected: $rel" >&2
+    return 1
+  fi
+  echo "$full"
+}
+
 # ── Tool execution ────────────────────────────────────────────────────────────
 
 _execute_tool() {
@@ -85,7 +101,7 @@ _execute_tool() {
   case "$name" in
     read_file)
       local path; path=$(echo "$args" | jq -r '.path')
-      local full="$VAULT_ROOT/$path"
+      local full; full=$(safe_path "$VAULT_ROOT" "$path") || { echo "ERROR: path traversal rejected: $path"; return 0; }
       if [[ -f "$full" ]]; then
         cat "$full"
       else
@@ -96,7 +112,7 @@ _execute_tool() {
     list_files)
       local dir; dir=$(echo "$args" | jq -r '.directory')
       local pat; pat=$(echo "$args" | jq -r '.pattern // "*.md"')
-      local full="$VAULT_ROOT/$dir"
+      local full; full=$(safe_path "$VAULT_ROOT" "$dir") || { echo "ERROR: path traversal rejected: $dir"; return 0; }
       if [[ -d "$full" ]]; then
         find "$full" -name "$pat" 2>/dev/null | sed "s|$VAULT_ROOT/||" | sort
       else
@@ -107,7 +123,7 @@ _execute_tool() {
     search_vault)
       local query; query=$(echo "$args" | jq -r '.query')
       local pat;   pat=$(echo "$args"   | jq -r '.file_pattern // "*.md"')
-      grep -r --include="$pat" -n "$query" "$VAULT_ROOT" 2>/dev/null \
+      grep -r --include="$pat" -n -- "$query" "$VAULT_ROOT" 2>/dev/null \
         | sed "s|$VAULT_ROOT/||" \
         | head -60
       ;;
@@ -115,7 +131,7 @@ _execute_tool() {
     write_file)
       local path;    path=$(echo "$args"    | jq -r '.path')
       local content; content=$(echo "$args" | jq -r '.content')
-      local full="$VAULT_ROOT/$path"
+      local full; full=$(safe_path "$VAULT_ROOT" "$path") || { echo "ERROR: path traversal rejected: $path"; return 0; }
       mkdir -p "$(dirname "$full")"
       printf '%s' "$content" > "$full"
       echo "Written: $path"

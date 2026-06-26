@@ -1,0 +1,13 @@
+# Requirements for gaia-lark-bot.py
+# vault-chat.py uses Python stdlib only — no extra packages needed.
+#
+# Install:
+#   pip install -r requirements.txt
+#
+# Requires Python 3.9+
+
+flask>=3.1
+python-dotenv>=1.0
+requests>=2.31
+flask-limiter>=3.5
+# werkzeug is a Flask dependency and provides ProxyFix — no separate pin needed

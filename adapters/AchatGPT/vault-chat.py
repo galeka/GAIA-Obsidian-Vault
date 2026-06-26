@@ -7,7 +7,7 @@ Usage:
     export VAULT_ROOT="/path/to/vault"   # defaults to current directory
     python vault-chat.py "What projects do I have?"
 
-Requires: Python 3.8+, no external packages.
+Requires: Python 3.9+, no external packages.
 """
 
 import json
@@ -22,9 +22,11 @@ from pathlib import Path
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 
-PROXY_URL  = os.environ.get("ACHATGPT_PROXY_URL", "https://your-proxy-url.workers.dev")
+PROXY_URL  = os.environ.get("ACHATGPT_PROXY_URL")
+if not PROXY_URL:
+    sys.exit("ERROR: ACHATGPT_PROXY_URL environment variable is not set.")
 API_KEY    = os.environ.get("ACHATGPT_API_KEY", "")
-MODEL      = os.environ.get("ACHATGPT_MODEL", "gpt-5.4")
+MODEL      = os.environ.get("ACHATGPT_MODEL", "gpt-4o")
 VAULT_ROOT = Path(os.environ.get("VAULT_ROOT", ".")).resolve()
 TIMEOUT    = int(os.environ.get("ACHATGPT_REQUEST_TIMEOUT", "60"))
 RETRIES    = int(os.environ.get("ACHATGPT_RETRY_ATTEMPTS", "3"))
@@ -139,18 +141,44 @@ def _api_call(endpoint: str, payload: dict) -> dict:
     raise RuntimeError("Max retries exceeded")
 
 
+# ── Path safety ────────────────────────────────────────────────────────────────
+
+def _safe_path(relative: str) -> Path:
+    """Resolve a relative vault path and reject any traversal outside VAULT_ROOT.
+
+    Args:
+        relative: AI-supplied path, relative to VAULT_ROOT.
+
+    Returns:
+        Resolved absolute Path guaranteed to be inside VAULT_ROOT.
+
+    Raises:
+        ValueError: if the resolved path escapes the vault root.
+    """
+    resolved = (VAULT_ROOT / relative).resolve()
+    if not resolved.is_relative_to(VAULT_ROOT):
+        raise ValueError(f"Path traversal rejected: {relative!r}")
+    return resolved
+
+
 # ── Tool execution ─────────────────────────────────────────────────────────────
 
 def _execute_tool(name: str, args: dict) -> str:
     if name == "read_file":
-        path = VAULT_ROOT / args["path"]
+        try:
+            path = _safe_path(args["path"])
+        except ValueError as e:
+            return f"ERROR: {e}"
         if path.is_file():
             return path.read_text(encoding="utf-8", errors="replace")
         return f"ERROR: file not found: {args['path']}"
 
     if name == "list_files":
-        directory = VAULT_ROOT / args.get("directory", "")
-        pattern   = args.get("pattern", "*.md")
+        try:
+            directory = _safe_path(args.get("directory", ""))
+        except ValueError as e:
+            return f"ERROR: {e}"
+        pattern = args.get("pattern", "*.md")
         if not directory.is_dir():
             return f"ERROR: directory not found: {args.get('directory')}"
         files = sorted(directory.rglob(pattern))
@@ -180,7 +208,10 @@ def _execute_tool(name: str, args: dict) -> str:
         return "\n".join(results) if results else "(no matches)"
 
     if name == "write_file":
-        path    = VAULT_ROOT / args["path"]
+        try:
+            path = _safe_path(args["path"])
+        except ValueError as e:
+            return f"ERROR: {e}"
         content = args["content"]
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
