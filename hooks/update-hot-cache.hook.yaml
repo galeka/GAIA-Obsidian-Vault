@@ -1,0 +1,6 @@
+name: update-hot-cache
+description: Prompt Claude to write a hot cache summary at session end for next-session continuity
+script: update-hot-cache.sh
+triggers:
+  - event: Stop
+exclude: []

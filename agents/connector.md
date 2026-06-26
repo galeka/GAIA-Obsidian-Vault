@@ -321,6 +321,53 @@ Recent Activity:
 - Not mentioned in 30+ days: [[Person L]], [[Person M]]
 ```
 
+### Mode 8: Contradiction Detection
+
+**Trigger**: User says "contradictions", "conflicting notes", "find contradictions", "what conflicts", "inconsistencies", "contraddizioni", "contradictions", "Widersprüche", "contradicciones", "contradições", or when a batch of notes has just been ingested.
+
+**Process**:
+1. Identify notes that cover the same topic, claim, or entity
+2. Compare claims across those notes — look for direct conflicts, outdated facts, and logical inconsistencies
+3. For each contradiction found, assess which claim is more credible (recency, source authority, corroboration)
+4. Add a `[!contradiction]` callout to both conflicting notes
+
+**Detection patterns to look for**:
+- A fact stated differently in two notes (numbers, dates, names)
+- A claim made in an older note that is refuted in a newer one
+- Two source notes with opposing conclusions on the same topic
+- A permanent note asserting X, a reading note asserting not-X
+
+**Output format**:
+```
+Contradiction Report — {{N}} conflicts found
+
+Conflict #1:
+[[Note A]] claims: "{{claim}}"
+[[Note B]] claims: "{{conflicting claim}}"
+Assessment: Note B is more credible — it is newer and cites {{source}}
+Action: Added [!contradiction] callout to both notes
+
+Conflict #2:
+[[Note C]] states date as {{date1}}
+[[Note D]] states date as {{date2}}
+Assessment: Uncertain — both are secondary sources
+Action: Flagged both; recommend verifying against primary source
+
+No contradiction found in: {{N}} note pairs checked
+```
+
+**Callout format added to flagged notes**:
+```markdown
+> [!contradiction] Conflicts with [[Other Note]]
+> This note claims {{X}}. [[Other Note]] claims {{Y}}.
+> Last checked: {{date}}. Resolve by {{suggestion}}.
+```
+
+**Rules**:
+- Never silently edit a note's claims — only add the callout, never change the original text
+- Always explain the assessment — don't just flag, explain which source is more credible and why
+- After flagging, suggest running the Researcher agent to find a definitive external source if needed
+
 ---
 
 ## Link Creation Rules

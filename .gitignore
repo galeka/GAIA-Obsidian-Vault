@@ -12,5 +12,9 @@ Test-SecondBrain/
 # Secrets — never commit
 **/.env
 !**/.env.example
-# GSD planning artifacts (internal workflow — not for upstream)
+**/.lark_tokens.json
+**/lark_tokens.json
+**/.lark_config.json
+# GSD planning
+artifacts (internal workflow — not for upstream)
 .planning/

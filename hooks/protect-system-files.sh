@@ -33,7 +33,7 @@ if [[ "$BASENAME" == "$DISPATCHER_NAME" && "$FILE" != *"$PLATFORM_DIR/"* ]]; the
 fi
 
 # ── Core agent definitions: never modify at runtime ─────────────────────────
-CORE_AGENTS="architect.md scribe.md sorter.md seeker.md connector.md librarian.md transcriber.md postman.md"
+CORE_AGENTS="architect.md scribe.md sorter.md seeker.md connector.md librarian.md transcriber.md postman.md researcher.md lark-sync.md"
 if [[ "$FILE" == *"$PLATFORM_DIR/agents/"* ]]; then
   for core in $CORE_AGENTS; do
     if [[ "$BASENAME" == "$core" ]]; then

@@ -1,6 +1,6 @@
 # GAIA — Graph-Augmented Intelligence Agent for Obsidian
 
-> An AI crew that manages your Obsidian vault through natural conversation. 8 agents, 17 skills, built on the Zettelkasten method and P.A.R.A. organization — with optional AChatGPT backend (GPT-4o, o3) and Lark integration.
+> An AI crew that manages your Obsidian vault through natural conversation. 10 agents, 18 skills, built on the Zettelkasten method and P.A.R.A. organization — with optional AChatGPT backend (GPT-4o, o3) and Lark integration.
 
 ---
 
@@ -14,7 +14,7 @@ The core philosophy: **your vault should think with you, not just store things f
 
 ## The Crew
 
-### 8 Agents
+### 10 Agents
 
 Agents handle reactive, single-shot operations. They activate automatically based on what you say.
 
@@ -24,12 +24,14 @@ Agents handle reactive, single-shot operations. They activate automatically base
 | **Scribe** | Fast text capture → clean Obsidian notes |
 | **Sorter** | Batch sort, priority triage, project pulse |
 | **Seeker** | Vault search and knowledge retrieval |
-| **Connector** | Knowledge graph, link analysis, Zettelkasten intelligence |
+| **Connector** | Knowledge graph, link analysis, Zettelkasten intelligence, contradiction detection |
 | **Librarian** | Vault health checks, consistency, analytics |
 | **Transcriber** | Audio and meeting transcription |
-| **Postman** | Email (Gmail / Hey.com) and Google Calendar |
+| **Postman** | Email (Gmail) and Google Calendar |
+| **Researcher** | Autonomous 3-round web research → structured vault note with citations |
+| **Lark-Sync** | Sync Lark messages, docs, tasks, and calendar events into the vault |
 
-### 17 Skills
+### 18 Skills
 
 Skills are multi-turn conversational workflows. Say the trigger phrase and the skill takes over.
 
@@ -52,6 +54,7 @@ Skills are multi-turn conversational workflows. Say the trigger phrase and the s
 | 15 | `/daily-review` | Morning note + focus items, EOD reflection, action item extraction |
 | 16 | `/reading-digest` | Turn articles and papers into atomic Zettelkasten notes with ICM assessment |
 | 17 | `/zettel-builder` | Guided permanent note creation: atomic, linked, ICM-complete |
+| 18 | `/batch-ingest` | Process multiple sources at once — each becomes a note, then a cross-linking pass connects them all |
 
 ---
 
@@ -67,7 +70,11 @@ The Connector agent goes beyond basic link analysis. It classifies every note in
 
 **Typed link suggestion** — when a new note is created, the Connector finds related notes and labels each connection: *Supports*, *Contradicts*, *Applies*, *Extends*, or *Origin*.
 
+**Contradiction detection** — when two notes make conflicting claims, the Connector adds a `[!contradiction]` callout to both, naming what conflicts and suggesting how to resolve it. Original text is never modified.
+
 **MOC gap detection** — when 3+ permanent notes share a topic with no Map of Content, the Connector flags it and asks the Architect to create one.
+
+**Session continuity** — at the end of every session, GAIA writes a compact snapshot to `Meta/hot.md` (recent activity, open threads, carry-forward items). It reads this silently at the start of the next session, so context is never lost between conversations.
 
 The three Zettelkasten skills complete the loop:
 
@@ -368,16 +375,27 @@ Override: `ACHATGPT_MODEL=gpt-4o ./achat.sh "..."`
 
 ## Lark integration (optional)
 
-The `lark-sync` agent pulls Lark messages, documents, tasks, and calendar events into your vault. The `gaia-lark-bot.py` bot lets your Lark workspace trigger vault operations directly.
+The **Lark-Sync** agent pulls messages, documents, tasks, and calendar events from Lark into your vault inbox. It runs via a local FastMCP server that authenticates with the Lark Open Platform.
 
 ```bash
-pip install flask python-dotenv requests
-python adapters/AchatGPT/gaia-lark-bot.py
+# Install dependencies
+pip install fastmcp httpx pydantic python-dotenv
+
+# Set your credentials (system env vars recommended)
+export LARK_APP_ID="cli_xxxxxxxx"
+export LARK_APP_SECRET="xxxxxxxxxxxxxxxx"
+
+# Register the MCP server with Claude Code
+claude mcp add lark-mcp python3 mcp/lark-mcp-server.py
 ```
 
-Set `LARK_APP_ID`, `LARK_APP_SECRET`, and `LARK_BOT_ID` in `.env`. Configure the webhook in your Lark console.
+Then just say: *"sync from Lark"*, *"pull my Lark tasks"*, *"sync Lark calendar this week"*
 
-Trigger: *"sync from Lark"*, *"Lark calendar"*, *"save Lark meeting notes"*
+The agent confirms scope before syncing, creates atomic notes in your inbox, and suggests a `/inbox-triage` pass when done.
+
+> **Setup guide:** `docs/lark-setup-guide.md` — covers Windows/macOS/Linux, Feishu (China edition), scope selection, credential rotation, and troubleshooting.
+>
+> **Feishu users:** add `LARK_API_BASE=https://open.feishu.cn` to your env vars.
 
 ---
 
@@ -397,21 +415,27 @@ Trigger: *"sync from Lark"*, *"Lark calendar"*, *"save Lark meeting notes"*
 
 ```
 GAIA/
-├── agents/                   9 agents
-├── skills/                   17 skills
+├── agents/                   10 agents (8 core + Researcher + Lark-Sync)
+├── skills/                   18 skills
+├── mcp/
+│   ├── servers.yaml          MCP server definitions
+│   └── lark-mcp-server.py    Lark FastMCP server
 ├── adapters/
-│   ├── AchatGPT/             AChatGPT backend + Lark bot
+│   ├── AchatGPT/             AChatGPT backend (GPT-4o / o3)
 │   ├── claude-code/
 │   ├── gemini-cli/
 │   ├── opencode/
 │   └── codex-cli/
 ├── references/               Shared docs read by agents at runtime
-├── hooks/                    Vault protection and validation hooks
+├── hooks/                    Vault protection, validation, and hot cache
 ├── docs/                     User-facing documentation
+│   ├── lark-setup-guide.md   Lark integration setup
+│   ├── gws-setup-guide.md    Gmail/Calendar setup
+│   └── ...
 ├── scripts/
 │   ├── launchme.sh           First-time installer
 │   └── updateme.sh           Post-pull updater
-├── mcp/servers.yaml          MCP server definitions
+├── .env.example              Credential template (copy to .env, gitignored)
 └── DISPATCHER.md             Routing rules (platform-neutral source)
 ```
 
@@ -431,6 +455,10 @@ GAIA/
 | `429 Too Many Requests` | Quota exceeded — check your API dashboard |
 | Timeout on o3 | Set `ACHATGPT_REQUEST_TIMEOUT=90` in `.env` |
 | Vault structure looks unexpected | Say "show my vault structure" — the Architect will explain it |
+| `LARK_APP_ID and LARK_APP_SECRET must be set` | Set env vars (see `docs/lark-setup-guide.md`), then restart terminal |
+| `Lark auth error: code=10014` | App not published to workspace — publish it in the Lark developer console |
+| `HTTP 403` on Lark fetch | Missing API scope — add the required scope in the Lark console and republish |
+| `ModuleNotFoundError: fastmcp` | Run `pip install fastmcp httpx pydantic python-dotenv` |
 
 ---
 

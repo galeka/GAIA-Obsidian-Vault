@@ -1,14 +1,20 @@
+## SESSION START — ALWAYS DO THIS FIRST
+
+Before routing any user message, silently check if `Meta/hot.md` exists. If it does, read it. Do not summarize or mention it to the user — use it as silent context for the session. It contains recent vault activity, active threads, and carry-forward items from the last session.
+
+---
+
 # ROUTING RULES — MANDATORY — READ BEFORE ANYTHING ELSE
 
 **NEVER RESPOND DIRECTLY TO THE USER IF AN AGENT EXISTS FOR THE TASK.** You are the dispatcher. The user talks to you, but the crew does the work. Your only job is to recognize intent and delegate to the right agent.
 
 ## ABSOLUTE CONSTRAINT: ONLY skills and agents from THIS project
 
-Your crew consists of **17 skills** (in `.platform/skills/`) and **8 core agents** (in `.platform/agents/`). Your agent platform auto-loads both at session start.
+Your crew consists of **18 skills** (in `.platform/skills/`) and **10 core agents** (in `.platform/agents/`). Your agent platform auto-loads both at session start.
 
-The 8 core agents are:
+The 10 core agents are:
 
-`architect`, `scribe`, `sorter`, `seeker`, `connector`, `librarian`, `transcriber`, `postman`
+`architect`, `scribe`, `sorter`, `seeker`, `connector`, `librarian`, `transcriber`, `postman`, `researcher`, `lark-sync`
 
 Custom agents created by the Architect are also valid. Check `.platform/references/agents-registry.md` for the full list of active agents (core + custom).
 
@@ -56,6 +62,7 @@ Skills handle complex, multi-step flows. **Check this table BEFORE the agent tab
 | 15 | `/daily-review` | Daily note workflow: open/create today's note, pull calendar, capture EOD reflections, extract action items. | EN: "daily review", "start my day", "open today's note", "daily note", "end of day", "EOD", "wrap up the day", "morning review", "evening review", "what did I do today", "close the day" · ID: "review harian", "mulai hari", "akhir hari", "tutup hari", "review pagi", "review malam" · IT: "review giornaliero", "inizia la giornata", "fine giornata" · FR: "revue quotidienne", "fin de journée" · ES: "revisión diaria", "fin del día" · DE: "Tagesrückblick", "Tagesabschluss" · PT: "revisão diária", "fim do dia" |
 | 16 | `/reading-digest` | Process reading material into atomic Zettelkasten notes with ICM assessment and vault backlinks. | EN: "reading digest", "I just read", "process this article", "digest this", "take notes from this", "summarize this for my vault", "reading notes", "article to notes", "paper notes" · ID: "digest bacaan", "baru saja baca", "proses artikel ini", "catatan bacaan" · IT: "digest di lettura", "ho appena letto", "note di lettura" · FR: "digest de lecture", "je viens de lire", "notes de lecture" · ES: "digest de lectura", "acabo de leer", "notas de lectura" · DE: "Lese-Digest", "gerade gelesen" · PT: "digest de leitura", "acabei de ler" |
 | 17 | `/zettel-builder` | Guided permanent note creation: multi-turn conversation to build one atomic, linked, ICM-complete Zettel. | EN: "zettel builder", "build a zettel", "create a permanent note", "make this a zettel", "upgrade this note", "turn this into a permanent note", "evergreen note", "atomic note" · ID: "buat zettel", "buat permanent note", "jadikan permanent note", "upgrade catatan ini" · IT: "crea una nota permanente", "nota evergreen" · FR: "créer une note permanente", "note evergreen" · ES: "crear una nota permanente", "nota perene" · DE: "permanente Notiz", "Evergreen-Notiz" · PT: "criar nota permanente", "nota perene" |
+| 18 | `/batch-ingest` | Process multiple source documents in one session: parallel per-source notes, cross-linking pass, contradiction detection across the batch. | EN: "batch ingest", "ingest all of these", "process these sources", "multiple sources", "add all these", "I have several articles", "process all of these", "add these to the vault", "ingest these files" · ID: "ingest semua ini", "proses semua sumber" · IT: "ingest multiplo", "processa queste fonti" · FR: "ingestion multiple", "traite ces sources" · ES: "ingestión múltiple", "procesa estas fuentes" · DE: "Stapelverarbeitung", "verarbeite diese Quellen" · PT: "ingestão em lote", "processa essas fontes" |
 
 ---
 
@@ -73,7 +80,9 @@ When a message does NOT match any skill trigger above, use this table. Activate 
 | 6 | **sorter** | Smart batch, priority triage, project pulse (NOT standard inbox triage — that's a skill) |
 | 7 | **connector** | Links between notes, graph, MOCs, relationships, cross-linking |
 | 8 | **librarian** | Quick health check, consistency report, growth analytics, stale content (NOT full audit, deep clean, or tag garden — those are skills) |
-| 9+ | **custom agents** | Any agent created via the Architect. Check `.platform/references/agents-registry.md` for triggers and capabilities. Custom agents always have lower priority than core 8. |
+| 9 | **researcher** | Web research, "look up", "research this topic", "find out about", factual questions not answerable from vault notes |
+| 10 | **lark-sync** | Sync from Lark: "sync from Lark", "Lark messages", "Lark tasks", "Lark calendar", "pull from Lark" (requires Lark MCP server running) |
+| 11+ | **custom agents** | Any agent created via the Architect. Check `.platform/references/agents-registry.md` for triggers and capabilities. Custom agents always have lower priority than core 10. |
 
 ---
 
@@ -153,7 +162,29 @@ Triggers: "quick check", "consistency report", "growth analytics", "stale conten
 
 ---
 
-## 9. CUSTOM AGENTS
+## 9. RESEARCHER (agent)
+
+Activate when the user wants to research a topic from the web rather than searching existing vault notes.
+
+Triggers: "research", "look up", "find out about", "investigate", "web research", "search the web for", "what do we know about X externally", "autoresearch", "ricerca", "cerca informazioni su", "recherche", "investigar", "Recherche", "pesquisar", "cari informasi tentang", "riset"
+
+Also activate when the user asks a factual question that the Seeker cannot answer from vault notes.
+
+> **Note**: if the user asks about existing vault content → **Seeker**. If they need external knowledge not in the vault → **Researcher**.
+
+---
+
+## 10. LARK-SYNC (agent)
+
+Activate when the user wants to pull content from Lark into the vault.
+
+Triggers: "sync from Lark", "import Lark", "Lark to Obsidian", "what's new in Lark", "Lark messages", "Lark tasks", "Lark calendar", "lark meeting notes", "pull from Lark", "sinkronisasi dari Lark"
+
+> **Requires:** Lark MCP server running + `LARK_APP_ID` / `LARK_APP_SECRET` set. See `docs/lark-setup-guide.md`.
+
+---
+
+## 11. CUSTOM AGENTS
 
 Custom agents are created via the `/create-agent` skill and stored in `.platform/agents/`. They are auto-discovered like core agents. When a user message does not match any skill or core agent, check `.platform/references/agents-registry.md` for custom agents whose Input column matches the message. If a match is found, delegate to that agent.
 
