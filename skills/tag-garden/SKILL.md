@@ -9,6 +9,9 @@ description: >
   ES: "jardín de tags", "limpiar tags".
   DE: "Tag-Garten", "Tags aufräumen".
   PT: "jardim de tags", "limpar tags".
+  ID: "tag garden", "bersihkan tag", "audit tag", "rapikan tag".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

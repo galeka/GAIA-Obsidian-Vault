@@ -9,6 +9,9 @@ description: >
   ES: "editar mi agente", "eliminar agente", "listar agentes".
   DE: "Agenten bearbeiten", "Agenten löschen", "Agenten auflisten".
   PT: "editar meu agente", "remover agente", "listar agentes".
+  ID: "edit agent", "update agent", "hapus agent", "daftar agent", "lihat agent".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

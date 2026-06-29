@@ -2,13 +2,17 @@
 name: inbox-triage
 description: >
   Process all notes in 00-Inbox/: scan, classify by content, route to correct vault
-  location, update MOCs, extract action items, and generate a daily digest. Triggers:
-  EN: "triage the inbox", "clean up the inbox", "sort my notes", "empty inbox", "file my notes", "process the inbox".
-  IT: "smista l'inbox", "svuota l'inbox", "ordina le note", "triage dell'inbox", "processa l'inbox".
-  FR: "trier la boite de réception", "vider l'inbox", "classer mes notes".
-  ES: "clasificar la bandeja de entrada", "vaciar el inbox", "ordenar mis notas".
-  DE: "Inbox sortieren", "Inbox leeren", "Notizen einordnen".
-  PT: "triagem da inbox", "esvaziar a inbox", "organizar minhas notas".
+  location, update MOCs, extract action items, and generate a daily digest.
+  Triggers:
+  EN: "triage the inbox", "empty inbox", "process the inbox", "file my notes".
+  IT: "smista l'inbox", "svuota l'inbox", "triage dell'inbox", "processa l'inbox".
+  FR: "trier la boite de réception", "vider l'inbox".
+  ES: "clasificar la bandeja de entrada", "vaciar el inbox".
+  DE: "Inbox leeren", "Inbox triage".
+  PT: "triagem da inbox", "esvaziar a inbox".
+  ID: "triage inbox", "kosongkan inbox", "proses inbox", "arsipkan catatan".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution
@@ -291,3 +295,4 @@ last-run: "{{ISO timestamp}}"
 **What to save**: files still in inbox after triage, notes you were unsure about (with your reasoning), filing patterns you noticed, areas that seem to be growing fast.
 
 **Max 30 lines** in the Post-it body. If you need more, summarize. This is a post-it, not a journal.
+                                                            

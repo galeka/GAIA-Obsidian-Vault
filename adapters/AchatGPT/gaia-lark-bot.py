@@ -100,11 +100,17 @@ limiter = Limiter(
 # Lark Signature Verification
 # ─────────────────────────────────────────────────────────────────────────────
 
+SIGNATURE_MAX_AGE_SECONDS = 300  # 5 minutes — Lark's recommended replay window
+
+
 def verify_lark_signature(timestamp: str, nonce: str, body: str, signature: str) -> bool:
     """Verify that the request came from Lark using HMAC-SHA256.
 
     Lark spec: HMAC-SHA256(key=LARK_APP_SECRET, msg=timestamp+nonce+body)
     compared against the X-Lark-Signature request header.
+
+    Also rejects requests whose timestamp is more than SIGNATURE_MAX_AGE_SECONDS
+    old to prevent replay attacks.
 
     Args:
         timestamp: X-Lark-Request-Timestamp header value
@@ -113,10 +119,19 @@ def verify_lark_signature(timestamp: str, nonce: str, body: str, signature: str)
         signature: X-Lark-Signature header value to compare against
 
     Returns:
-        True if signature is valid, False otherwise.
+        True if signature is valid and timestamp is fresh, False otherwise.
     """
     if not LARK_APP_SECRET:
         return False
+
+    # Reject replayed requests (FIX: timestamp replay attack)
+    try:
+        ts = int(timestamp)
+        if abs(time.time() - ts) > SIGNATURE_MAX_AGE_SECONDS:
+            return False
+    except (ValueError, TypeError):
+        return False
+
     message = (timestamp + nonce + body).encode("utf-8")
     expected = hmac.new(
         LARK_APP_SECRET.encode("utf-8"),
@@ -171,7 +186,8 @@ def get_lark_message_content(message_id: str, token: str) -> str:
     try:
         content = json.loads(data["data"]["body"]["content"])
         return content.get("text", "")
-    except:
+    except (KeyError, json.JSONDecodeError, TypeError) as e:
+        print(f"[{datetime.now()}] Could not parse message content: {e}")
         return str(data.get("data", {}).get("body", ""))
 
 
@@ -283,12 +299,10 @@ def lark_webhook():
 
 @app.route("/health", methods=["GET"])
 def health():
-    """Health check endpoint."""
+    """Health check endpoint. Returns minimal info to avoid leaking internal paths."""
     return jsonify({
         "status": "running",
         "timestamp": datetime.now().isoformat(),
-        "vault": VAULT_ROOT,
-        "tunnel": os.getenv("WEBHOOK_PUBLIC_URL", "not configured")
     })
 
 

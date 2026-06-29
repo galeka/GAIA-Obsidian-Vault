@@ -10,7 +10,7 @@ Before routing any user message, silently check if `Meta/hot.md` exists. If it d
 
 ## ABSOLUTE CONSTRAINT: ONLY skills and agents from THIS project
 
-Your crew consists of **18 skills** (in `.platform/skills/`) and **10 core agents** (in `.platform/agents/`). Your agent platform auto-loads both at session start.
+Your crew consists of **20 skills** (in `.platform/skills/`) and **10 core agents** (in `.platform/agents/`). Your agent platform auto-loads both at session start.
 
 The 10 core agents are:
 
@@ -63,6 +63,8 @@ Skills handle complex, multi-step flows. **Check this table BEFORE the agent tab
 | 16 | `/reading-digest` | Process reading material into atomic Zettelkasten notes with ICM assessment and vault backlinks. | EN: "reading digest", "I just read", "process this article", "digest this", "take notes from this", "summarize this for my vault", "reading notes", "article to notes", "paper notes" · ID: "digest bacaan", "baru saja baca", "proses artikel ini", "catatan bacaan" · IT: "digest di lettura", "ho appena letto", "note di lettura" · FR: "digest de lecture", "je viens de lire", "notes de lecture" · ES: "digest de lectura", "acabo de leer", "notas de lectura" · DE: "Lese-Digest", "gerade gelesen" · PT: "digest de leitura", "acabei de ler" |
 | 17 | `/zettel-builder` | Guided permanent note creation: multi-turn conversation to build one atomic, linked, ICM-complete Zettel. | EN: "zettel builder", "build a zettel", "create a permanent note", "make this a zettel", "upgrade this note", "turn this into a permanent note", "evergreen note", "atomic note" · ID: "buat zettel", "buat permanent note", "jadikan permanent note", "upgrade catatan ini" · IT: "crea una nota permanente", "nota evergreen" · FR: "créer une note permanente", "note evergreen" · ES: "crear una nota permanente", "nota perene" · DE: "permanente Notiz", "Evergreen-Notiz" · PT: "criar nota permanente", "nota perene" |
 | 18 | `/batch-ingest` | Process multiple source documents in one session: parallel per-source notes, cross-linking pass, contradiction detection across the batch. | EN: "batch ingest", "ingest all of these", "process these sources", "multiple sources", "add all these", "I have several articles", "process all of these", "add these to the vault", "ingest these files" · ID: "ingest semua ini", "proses semua sumber" · IT: "ingest multiplo", "processa queste fonti" · FR: "ingestion multiple", "traite ces sources" · ES: "ingestión múltiple", "procesa estas fuentes" · DE: "Stapelverarbeitung", "verarbeite diese Quellen" · PT: "ingestão em lote", "processa essas fontes" |
+| 19 | `/caveman` | Enable ultra-compressed communication mode. Cuts ~65–75% output tokens by dropping filler while keeping full technical accuracy. Guardrail: vault note content always written in full prose. | EN: "caveman mode", "talk like caveman", "less tokens", "be brief", "/caveman" · ID: "bicara singkat", "hemat token", "ringkas saja", "mode caveman" · See Section 12 for full guardrail rules. |
+| 20 | `/caveman-compress` | Compress an agent state file or operational file to reduce context load. Safe only on `Meta/states/*.md`, `Meta/hot.md`, and similar operational files — never on vault note content. | EN: "compress this file", "/caveman-compress FILEPATH" · ID: "kompres file ini", "kompres state file" |
 
 ---
 
@@ -187,6 +189,41 @@ Triggers: "sync from Lark", "import Lark", "Lark to Obsidian", "what's new in La
 ## 11. CUSTOM AGENTS
 
 Custom agents are created via the `/create-agent` skill and stored in `.platform/agents/`. They are auto-discovered like core agents. When a user message does not match any skill or core agent, check `.platform/references/agents-registry.md` for custom agents whose Input column matches the message. If a match is found, delegate to that agent.
+
+---
+
+## 12. CAVEMAN MODE (cross-cutting — not an agent or skill)
+
+Caveman is a **session-level communication mode**, not a task-routing target. It compresses the dispatcher's and agents' process communication (status updates, routing decisions, triage reports) to reduce token usage ~65–75%.
+
+**Enable:** user says "caveman mode", "bicara singkat", "hemat token", "ringkas saja", "/caveman"
+**Disable:** user says "normal mode", "stop caveman", "matikan caveman", "balik normal"
+
+### MANDATORY GUARDRAIL — cannot be overridden
+
+**Caveman mode NEVER applies to vault note content.** When any agent or skill writes actual note files to the vault, those files must be written in full, high-quality prose regardless of caveman mode state.
+
+| Context | Caveman? |
+|---------|----------|
+| Agent status updates in chat | ✅ Yes |
+| Triage reports shown in chat | ✅ Yes |
+| Dispatcher routing decisions | ✅ Yes |
+| Error messages in chat | ✅ Yes |
+| Note content written to `{{inbox}}/` | ❌ Full prose |
+| Zettelkasten notes, research notes | ❌ Full prose |
+| Meeting notes, transcriptions | ❌ Full prose |
+| Daily notes, MOC entries, area descriptions | ❌ Full prose |
+| Any file written to the vault | ❌ Full prose |
+
+When propagating caveman mode to an invoked agent or skill, always include this instruction in the prompt:
+
+> "Caveman mode ACTIVE for your process communication. EXCEPTION: any vault note content you write must be in full prose — never caveman fragments in note files."
+
+### /caveman-compress
+
+Skill that compresses agent state files (`Meta/states/*.md`, `Meta/hot.md`) to reduce context load each session. Invoke when user says "compress this file", "kompres file ini", "/caveman-compress FILEPATH".
+
+> **Never compress vault note content** — only operational/state files. See `skills/caveman-compress/SKILL.md`.
 
 ---
 

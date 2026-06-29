@@ -9,6 +9,9 @@ description: >
   ES: "auditoría del vault", "revisar el vault".
   DE: "Vault-Audit", "Vault überprüfen".
   PT: "auditoria do vault", "verificar o vault".
+  ID: "audit vault", "periksa vault lengkap", "health check vault", "review vault".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

@@ -10,6 +10,9 @@ description: >
   ES: "sincronizar contacto", "agregar a contactos", "guardar contacto".
   DE: "Kontakt synchronisieren", "zu Kontakten hinzufuegen", "Kontakt speichern".
   PT: "sincronizar contato", "adicionar aos contatos", "salvar contato".
+  ID: "sinkronisasi kontak", "tambah ke kontak", "simpan kontak", "perbarui kontak".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

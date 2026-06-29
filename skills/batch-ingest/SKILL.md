@@ -15,6 +15,8 @@ description: >
   ES: "ingestión múltiple", "procesa estas fuentes", "añade todo al vault".
   DE: "Stapelverarbeitung", "verarbeite diese Quellen", "alles zum Vault hinzufügen".
   PT: "ingestão em lote", "processa essas fontes", "adiciona tudo ao vault".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

@@ -4,7 +4,8 @@ description: >
   Explore email (Gmail via GWS CLI, Hey via hey CLI) and Google Calendar to capture important
   information into the Obsidian vault. Process inbox, find deadlines, requests, events, and
   urgent information to save as notes. Can also create Google Calendar events and draft email
-  responses. Supports Hey.com mailboxes (Imbox, Feed, Paper Trail, Reply Later, Set Aside, Bubble Up) and Gmail. Use when the user says:
+  responses. Supports Hey.com mailboxes (Imbox, Feed, Paper Trail, Reply Later, Set Aside, Bubble Up) and Gmail.
+  Triggers:
   EN: "check my email", "what's in my inbox", "save important emails", "import events",
   "what's on my calendar", "create event", "save deadlines", "process emails",
   "anything urgent in email?", "postman", "VIP emails", "draft reply",
@@ -23,8 +24,11 @@ description: >
   "Termin erstellen", "was steht im Kalender",
   "Antwortentwurf";
   PT: "verificar meus emails", "o que tem na caixa de entrada", "importar eventos",
-  "criar evento", "o que tem no calendário", "triagem de email",
-  "preparar a reunião", "agenda semanal", "rascunho de resposta".
+  "criar evento", "o que tem no calendário", "processar emails",
+  "preparar a reunião", "agenda semanal", "rascunho de resposta";
+  ID: "cek email", "apa yang ada di inbox", "simpan email penting", "impor event",
+  "apa yang ada di kalender", "buat event", "simpan deadline",
+  "ada yang urgent di email?", "email VIP", "buat balasan".
 mode: subagent
 capabilities: [read, write, edit, bash]
 model: mid

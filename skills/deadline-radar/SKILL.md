@@ -9,6 +9,9 @@ description: >
   ES: "fechas límite", "radar de plazos".
   DE: "Fristen-Radar", "meine Fristen".
   PT: "radar de prazos", "meus prazos".
+  ID: "radar deadline", "apa saja deadline", "deadline minggu ini", "deadline mendatang".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

@@ -1,473 +1,126 @@
-# GAIA — Graph-Augmented Intelligence Agent for Obsidian
+# 🧠 GAIA — Graph-Augmented Intelligence Agent for Obsidian
 
-> An AI crew that manages your Obsidian vault through natural conversation. 10 agents, 18 skills, built on the Zettelkasten method and P.A.R.A. organization — with optional AChatGPT backend (GPT-4o, o3) and Lark integration.
+[![Agents](https://img.shields.io/badge/Agents-11-d29922?style=flat-square)](https://github.com/galeka/GAIA-Obsidian-Vault)
+[![Skills](https://img.shields.io/badge/Skills-19-a371f7?style=flat-square)](https://github.com/galeka/GAIA-Obsidian-Vault)
+[![Platforms](https://img.shields.io/badge/Platforms-5-388bfd?style=flat-square)](https://github.com/galeka/GAIA-Obsidian-Vault)
+[![License](https://img.shields.io/badge/License-MIT-3fb950?style=flat-square)](LICENSE)
 
----
+> Talk to your Obsidian vault like you're talking to an assistant.  
+> GAIA listens, thinks, then acts — no clicking, no dashboards.
 
-## What is GAIA?
-
-GAIA is a multi-agent system that lives inside your Obsidian vault. You talk to it; it delegates to the right agent or skill. No UI, no dashboards — just conversation.
-
-The core philosophy: **your vault should think with you, not just store things for you.** Every agent is designed around the Zettelkasten principle that knowledge grows through connection, not accumulation.
-
----
-
-## The Crew
-
-### 10 Agents
-
-Agents handle reactive, single-shot operations. They activate automatically based on what you say.
-
-| Agent | Role |
-|-------|------|
-| **Architect** | Vault structure, areas, templates, MOCs |
-| **Scribe** | Fast text capture → clean Obsidian notes |
-| **Sorter** | Batch sort, priority triage, project pulse |
-| **Seeker** | Vault search and knowledge retrieval |
-| **Connector** | Knowledge graph, link analysis, Zettelkasten intelligence, contradiction detection |
-| **Librarian** | Vault health checks, consistency, analytics |
-| **Transcriber** | Audio and meeting transcription |
-| **Postman** | Email (Gmail) and Google Calendar |
-| **Researcher** | Autonomous 3-round web research → structured vault note with citations |
-| **Lark-Sync** | Sync Lark messages, docs, tasks, and calendar events into the vault |
-
-### 18 Skills
-
-Skills are multi-turn conversational workflows. Say the trigger phrase and the skill takes over.
-
-| # | Skill | What it does |
-|---|-------|-------------|
-| 1 | `/onboarding` | First-time vault setup — guided conversation creates your full structure |
-| 2 | `/create-agent` | Build a custom agent via 6-phase interview |
-| 3 | `/manage-agent` | Edit, update, or remove custom agents |
-| 4 | `/defrag` | Weekly structural audit: inbox hygiene, areas, MOCs, tags |
-| 5 | `/email-triage` | Scan inbox, score by priority, save actionable emails as notes |
-| 6 | `/meeting-prep` | Pull participant context, past notes, and emails before a meeting |
-| 7 | `/weekly-agenda` | Day-by-day week view combining calendar + email + vault tasks |
-| 8 | `/deadline-radar` | Unified deadline timeline grouped by urgency |
-| 9 | `/transcribe` | Process recordings and transcripts into structured notes |
-| 10 | `/vault-audit` | Full 7-phase vault health audit |
-| 11 | `/deep-clean` | Extended cleanup: stale content, broken refs, template compliance |
-| 12 | `/tag-garden` | Tag hygiene: orphans, duplicates, unused, over-used |
-| 13 | `/inbox-triage` | Classify, route, update MOCs, and extract actions from all inbox notes |
-| 14 | `/contact-sync` | Sync a person to Apple Contacts |
-| 15 | `/daily-review` | Morning note + focus items, EOD reflection, action item extraction |
-| 16 | `/reading-digest` | Turn articles and papers into atomic Zettelkasten notes with ICM assessment |
-| 17 | `/zettel-builder` | Guided permanent note creation: atomic, linked, ICM-complete |
-| 18 | `/batch-ingest` | Process multiple sources at once — each becomes a note, then a cross-linking pass connects them all |
+> Bicara ke vault Obsidian kamu seperti ngobrol dengan asisten.  
+> GAIA mendengarkan, berpikir, lalu melakukan — tanpa klik, tanpa dashboard.
 
 ---
 
-## Zettelkasten intelligence
+## How it works / Cara kerjanya
 
-The Connector agent goes beyond basic link analysis. It classifies every note in the vault and surfaces the health of your knowledge graph:
-
-**Hub / Branch / Leaf classification** — notes are scored by link density. Hubs (5+ links) are your knowledge anchors. Leaves (0-1 links) are flagged for upgrade.
-
-**ICM completeness audit** — every permanent note is checked for all three layers: Information (the fact), Context (why it matters to you), and Meaning (the "so what"). Notes stuck at `[Info-only]` get specific upgrade prompts.
-
-**Evergreen scoring** — notes are scored 0-5 on atomicity, own-words writing, ICM completeness, link count, and incoming links. Your true evergreens rise to the top.
-
-**Typed link suggestion** — when a new note is created, the Connector finds related notes and labels each connection: *Supports*, *Contradicts*, *Applies*, *Extends*, or *Origin*.
-
-**Contradiction detection** — when two notes make conflicting claims, the Connector adds a `[!contradiction]` callout to both, naming what conflicts and suggesting how to resolve it. Original text is never modified.
-
-**MOC gap detection** — when 3+ permanent notes share a topic with no Map of Content, the Connector flags it and asks the Architect to create one.
-
-**Session continuity** — at the end of every session, GAIA writes a compact snapshot to `Meta/hot.md` (recent activity, open threads, carry-forward items). It reads this silently at the start of the next session, so context is never lost between conversations.
-
-The three Zettelkasten skills complete the loop:
-
-- `/reading-digest` — raw article → Literature Note → Permanent Note → ICM label → vault links
-- `/zettel-builder` — one rough idea → 9-phase guided conversation → full ICM permanent note
-- `/daily-review` — morning note → focus items → EOD reflection → action items to inbox
-
----
-
-## Installation
-
-### Requirements
-
-- [Obsidian](https://obsidian.md) (free)
-- One supported agent platform: [Claude Code](https://claude.ai/code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [OpenCode](https://opencode.ai), or [Codex CLI](https://openai.com/codex)
-- Git
-
----
-
-### macOS
-
-#### Step 1 — Install Obsidian
-
-1. Go to [obsidian.md](https://obsidian.md) and download the macOS `.dmg`
-2. Open the `.dmg`, drag Obsidian into **Applications**, then open it
-3. Click **Create new vault**, give it a name (e.g. `MyBrain`), and pick a location
-4. Note the full path — you'll need it in the next steps
-
-#### Step 2 — Install Git
-
-Open **Terminal** (`Command + Space` → type "Terminal" → Enter) and run:
-
-```bash
-git --version
+```
+You speak  →  GAIA routes  →  Agent runs  →  Vault updated
+Kamu bicara   GAIA routing   Agent bekerja   Vault diupdate
 ```
 
-If Git is not installed, macOS will offer to install Xcode Command Line Tools automatically — click **Install** and wait. Verify with `git --version` again.
+**11 agents** that activate automatically + **19 skills** triggered by natural conversation — powered by Claude, Gemini, GPT-4o, or any supported AI platform.
 
-#### Step 3 — Install an agent platform
+---
 
-Pick one and install it:
+## What can it do? / Apa yang bisa dilakukan?
 
-| Platform | How to install |
-|----------|---------------|
-| **Claude Code** (recommended) | Download from [claude.ai/code](https://claude.ai/code) |
-| **Gemini CLI** | `npm install -g @google/gemini-cli` |
-| **OpenCode** | `npm install -g opencode-ai` |
-| **Codex CLI** | `npm install -g @openai/codex` |
+| Just say... / Cukup katakan... | What happens / Yang terjadi |
+|-------------------------------|----------------------------|
+| *"Do my daily review"* | Opens today's note, pulls calendar, asks for focus items |
+| *"I just read an article about X"* | Turns it into a linked Zettelkasten note |
+| *"What's on my plate this week?"* | Combines calendar + email + vault tasks into one view |
+| *"Triage my inbox"* | Classifies and routes all inbox notes automatically |
+| *"Check my vault health"* | Full structural audit with recommendations |
+| *"Prepare me for my 3pm meeting"* | Pulls participant context, past notes, related emails |
+| *"What are my deadlines?"* | Unified timeline grouped by urgency |
+| *"Create a new agent for X"* | Builds a custom agent via guided conversation |
 
-> **Node.js required for npm-based platforms.** Install it from [nodejs.org](https://nodejs.org) (LTS version). Verify with `node --version`.
+---
 
-#### Step 4 — Install GAIA
+## The crew / Anggota tim
 
-In Terminal, navigate to your vault folder:
+### 🤖 11 Agents — reactive, one-shot
 
+| | Agent | Role |
+|-|-------|------|
+| 🏛️ | **Architect** | Vault structure, areas, templates, MOCs |
+| ✍️ | **Scribe** | Fast capture → clean Obsidian notes |
+| 📂 | **Sorter** | Batch sorting and priority triage |
+| 🔍 | **Seeker** | Search and knowledge retrieval |
+| 🔗 | **Connector** | Knowledge graph, link analysis, contradiction detection |
+| 📚 | **Librarian** | Vault health checks and analytics |
+| 🎙️ | **Transcriber** | Audio and meeting transcription |
+| 📬 | **Postman** | Gmail and Google Calendar |
+| 🌐 | **Researcher** | 3-round web research → structured vault note |
+| 🪶 | **Lark-Sync** | Sync Lark messages, tasks, and calendar |
+| 🔧 | **Prompt-Optimizer** | Audit and optimize agent/skill trigger descriptions |
+
+### ⚡ 19 Skills — multi-turn workflows
+
+`/onboarding` · `/daily-review` · `/weekly-agenda` · `/inbox-triage` · `/reading-digest` · `/zettel-builder` · `/vault-audit` · `/deadline-radar` · `/meeting-prep` · `/email-triage` · `/transcribe` · `/defrag` · `/deep-clean` · `/tag-garden` · `/batch-ingest` · `/create-agent` · `/manage-agent` · `/contact-sync` · `/vault-security-audit`
+
+You don't need to type the skill name — just speak naturally and GAIA routes automatically.  
+*(Tidak perlu ketik nama skill — bicara natural, GAIA routing otomatis.)*
+
+---
+
+## Supported platforms / Platform yang didukung
+
+| Platform | macOS | Windows |
+|----------|:-----:|:-------:|
+| **Claude Code** ⭐ | ✅ | ✅ |
+| **Gemini CLI** | ✅ | ✅ via WSL |
+| **OpenCode** | ✅ | ✅ via WSL |
+| **Codex CLI** | ✅ | ✅ via WSL |
+| **AChatGPT** (GPT-4o/o3) | ✅ | ✅ via WSL |
+
+---
+
+## Installation / Instalasi
+
+Choose your language for the full installation guide:
+
+> 📖 **[Installation Guide — English](INSTALL.md)**
+
+> 📖 **[Panduan Instalasi — Bahasa Indonesia](INSTALL.id.md)**
+
+**Quick start (4 steps):**
 ```bash
-# Replace the path with your actual vault location
-cd ~/Documents/MyBrain
-```
-
-Clone the repo and run the installer:
-
-```bash
+# 1. Install Obsidian → obsidian.md
+# 2. Install Claude Code → claude.ai/code  (or another platform)
+# 3. Clone GAIA into your vault folder
 git clone https://github.com/galeka/GAIA-Obsidian-Vault.git GAIA
-cd GAIA
-bash scripts/launchme.sh
-```
-
-The installer will ask which platform you use. Select it and it copies all agents, skills, hooks, and references into the correct directory (`.claude/`, `.gemini/`, etc.).
-
-#### Step 5 — Initialize your vault
-
-Open your agent platform **from inside your vault folder**:
-
-```bash
-# Navigate to your vault first — this is important
-cd ~/Documents/MyBrain
-
-# Then launch your platform:
-claude        # Claude Code
-gemini        # Gemini CLI
-opencode      # OpenCode
-codex         # Codex CLI
-```
-
-Then say:
-
-> **"Initialize my vault"**
-
-The `/onboarding` skill starts a guided conversation to build your folder structure, save your profile, and configure integrations.
-
-#### Step 6 — Daily usage example
-
-```
-You:  "Do my daily review"
-GAIA: [opens today's note, pulls calendar, asks for focus items]
-
-You:  "I just read an article about zero-trust security"
-GAIA: [runs /reading-digest → creates literature note → links to related zettels]
-
-You:  "Triage my inbox"
-GAIA: [classifies all notes in 00-Inbox/, routes them, updates MOCs]
-```
-
-#### Step 7 — Update GAIA
-
-```bash
-cd ~/Documents/MyBrain/GAIA
-git pull
-bash scripts/updateme.sh
-```
-
-Your vault notes are never touched by updates.
-
----
-
-### Windows
-
-> Windows support requires [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install) (Windows Subsystem for Linux) for all platforms except Claude Code, which runs natively. All terminal commands below run inside WSL unless noted otherwise.
-
-#### Step 1 — Install WSL 2
-
-Open **PowerShell as Administrator** (Start → search "PowerShell" → right-click → *Run as administrator*):
-
-```powershell
-wsl --install
-```
-
-Restart your computer when prompted. After restart, WSL will finish installing Ubuntu and ask you to create a Linux username and password. Remember these.
-
-Verify:
-
-```powershell
-wsl --version
-```
-
-#### Step 2 — Install Obsidian
-
-1. Go to [obsidian.md](https://obsidian.md) and download the Windows installer (`.exe`)
-2. Run the installer and open Obsidian
-3. Click **Create new vault**, name it (e.g. `MyBrain`), and save it somewhere easy to find — e.g. `C:\Users\YourName\Documents\MyBrain`
-4. Note the full path — you'll need it
-
-#### Step 3 — Install Git (inside WSL)
-
-Open the **WSL terminal** (Start → search "Ubuntu" or "WSL") and run:
-
-```bash
-sudo apt update && sudo apt install git -y
-git --version
-```
-
-#### Step 4 — Install an agent platform
-
-**Option A: Claude Code — native Windows (no WSL needed)**
-
-Download and install from [claude.ai/code](https://claude.ai/code). Claude Code runs natively on Windows and includes a desktop app (Cowork mode). You can skip WSL entirely if you only use Claude Code.
-
-**Option B: Gemini CLI / OpenCode / Codex CLI — via WSL**
-
-Inside WSL, install Node.js:
-
-```bash
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt install -y nodejs
-node --version   # should print v20.x or higher
-```
-
-Then install your chosen platform:
-
-```bash
-# Gemini CLI
-npm install -g @google/gemini-cli
-
-# OpenCode
-npm install -g opencode-ai
-
-# Codex CLI
-npm install -g @openai/codex
-```
-
-#### Step 5 — Install GAIA
-
-Inside WSL, navigate to your vault. Windows drives are mounted at `/mnt/c/`, `/mnt/d/`, etc.:
-
-```bash
-# Replace YourName and MyBrain with your actual values
-cd /mnt/c/Users/YourName/Documents/MyBrain
-```
-
-Clone and install:
-
-```bash
-git clone https://github.com/galeka/GAIA-Obsidian-Vault.git GAIA
-cd GAIA
-bash scripts/launchme.sh
-```
-
-Select your platform when prompted.
-
-> **Claude Code on Windows (native, no WSL):**
-> Install [Git for Windows](https://git-scm.com) first, then open **Git Bash** (right-click in your vault folder → *Git Bash Here*):
-> ```bash
-> git clone https://github.com/galeka/GAIA-Obsidian-Vault.git GAIA
-> cd GAIA
-> bash scripts/launchme.sh
-> ```
-
-#### Step 6 — Initialize your vault
-
-**WSL (Gemini CLI / OpenCode / Codex CLI):**
-
-```bash
-# Navigate to your vault first — this is important
-cd /mnt/c/Users/YourName/Documents/MyBrain
-
-# Then launch your platform:
-gemini        # Gemini CLI
-opencode      # OpenCode
-codex         # Codex CLI
-```
-
-**Claude Code (native Windows):**
-
-Open the Claude desktop app, or navigate to your vault in Command Prompt / PowerShell and run `claude`.
-
-Then say:
-
-> **"Initialize my vault"**
-
-#### Step 7 — Daily usage example
-
-```
-You:  "What's on my plate this week?"
-GAIA: [runs /weekly-agenda → pulls calendar + email + vault tasks]
-
-You:  "Build a zettel about the concept I just read"
-GAIA: [runs /zettel-builder → 9-phase guided note creation]
-
-You:  "Check my vault health"
-GAIA: [runs /vault-audit → full 7-phase structural report]
-```
-
-#### Step 8 — Update GAIA
-
-```bash
-# In WSL
-cd /mnt/c/Users/YourName/Documents/MyBrain/GAIA
-git pull
-bash scripts/updateme.sh
+cd GAIA && bash scripts/launchme.sh
+# 4. Open your vault and say: "Initialize my vault"
 ```
 
 ---
 
-## First conversation — quick reference
+## Optional integrations / Integrasi opsional
 
-After initialization, try these phrases to explore what GAIA can do:
-
-| Say this... | GAIA does this |
-|-------------|---------------|
-| "Initialize my vault" | `/onboarding` — full vault setup |
-| "Do my daily review" | `/daily-review` — morning note + focus items |
-| "What's on my plate this week?" | `/weekly-agenda` — week overview |
-| "Triage my inbox" | `/inbox-triage` — route and classify inbox notes |
-| "I just read an article about X" | `/reading-digest` — article → atomic Zettel |
-| "Build a zettel about [idea]" | `/zettel-builder` — guided permanent note |
-| "Check my vault health" | `/vault-audit` — structural audit |
-| "What are my deadlines?" | `/deadline-radar` — unified deadline view |
-| "Prepare me for my 3pm meeting" | `/meeting-prep` — participant context + notes |
-| "Create a new agent for X" | `/create-agent` — custom agent builder |
-
-You don't need to type the skill name — just speak naturally and GAIA routes to the right agent or skill automatically.
+- **GPT-4o / o3** — use OpenAI models via the AChatGPT adapter (`adapters/AchatGPT/`)
+- **Lark / Feishu** — sync messages, tasks, and calendar via FastMCP (`mcp/lark-mcp-server.py`)
 
 ---
 
-## AChatGPT backend (optional)
-
-Use GPT-4o or o3 instead of Claude / Gemini to run the crew.
+## Update
 
 ```bash
-cp adapters/AchatGPT/.env.example adapters/AchatGPT/.env
-# Set ACHATGPT_API_KEY and optionally VAULT_ROOT
-
-chmod +x adapters/AchatGPT/achat.sh
-cd adapters/AchatGPT
-./achat.sh "Initialize my vault"
+cd your-vault/GAIA
+git pull && bash scripts/updateme.sh
 ```
 
-| Tier | Model |
-|------|-------|
-| `low` | gpt-4o-mini |
-| `mid` | gpt-4o |
-| `high` | o3 |
-
-Override: `ACHATGPT_MODEL=gpt-4o ./achat.sh "..."`
+Your notes are never touched by updates. / Note vault kamu tidak pernah disentuh oleh update.
 
 ---
 
-## Lark integration (optional)
+<div align="center">
 
-The **Lark-Sync** agent pulls messages, documents, tasks, and calendar events from Lark into your vault inbox. It runs via a local FastMCP server that authenticates with the Lark Open Platform.
+Built with ❤️ for a second brain that actually thinks.  
+*Dibuat dengan ❤️ untuk second brain yang benar-benar berpikir.*
 
-```bash
-# Install dependencies
-pip install fastmcp httpx pydantic python-dotenv
+**[⭐ Star this repo](https://github.com/galeka/GAIA-Obsidian-Vault)**
 
-# Set your credentials (system env vars recommended)
-export LARK_APP_ID="cli_xxxxxxxx"
-export LARK_APP_SECRET="xxxxxxxxxxxxxxxx"
-
-# Register the MCP server with Claude Code
-claude mcp add lark-mcp python3 mcp/lark-mcp-server.py
-```
-
-Then just say: *"sync from Lark"*, *"pull my Lark tasks"*, *"sync Lark calendar this week"*
-
-The agent confirms scope before syncing, creates atomic notes in your inbox, and suggests a `/inbox-triage` pass when done.
-
-> **Setup guide:** `docs/lark-setup-guide.md` — covers Windows/macOS/Linux, Feishu (China edition), scope selection, credential rotation, and troubleshooting.
->
-> **Feishu users:** add `LARK_API_BASE=https://open.feishu.cn` to your env vars.
-
----
-
-## Supported platforms
-
-| Platform | Install | macOS | Windows |
-|----------|---------|-------|---------|
-| Claude Code | [claude.ai/code](https://claude.ai/code) | ✅ Native | ✅ Native |
-| Gemini CLI | [github.com/google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) | ✅ Native | ✅ Via WSL |
-| OpenCode | [opencode.ai](https://opencode.ai) | ✅ Native | ✅ Via WSL |
-| Codex CLI | `npm i -g @openai/codex` | ✅ Native | ✅ Via WSL |
-| AChatGPT | See adapter above | ✅ Native | ✅ Via WSL |
-
----
-
-## Project structure
-
-```
-GAIA/
-├── agents/                   10 agents (8 core + Researcher + Lark-Sync)
-├── skills/                   18 skills
-├── mcp/
-│   ├── servers.yaml          MCP server definitions
-│   └── lark-mcp-server.py    Lark FastMCP server
-├── adapters/
-│   ├── AchatGPT/             AChatGPT backend (GPT-4o / o3)
-│   ├── claude-code/
-│   ├── gemini-cli/
-│   ├── opencode/
-│   └── codex-cli/
-├── references/               Shared docs read by agents at runtime
-├── hooks/                    Vault protection, validation, and hot cache
-├── docs/                     User-facing documentation
-│   ├── lark-setup-guide.md   Lark integration setup
-│   ├── gws-setup-guide.md    Gmail/Calendar setup
-│   └── ...
-├── scripts/
-│   ├── launchme.sh           First-time installer
-│   └── updateme.sh           Post-pull updater
-├── .env.example              Credential template (copy to .env, gitignored)
-└── DISPATCHER.md             Routing rules (platform-neutral source)
-```
-
----
-
-## Troubleshooting
-
-| Problem | Fix |
-|---------|-----|
-| Agent doesn't activate | Open the platform **inside the vault folder** — not a different directory |
-| `bash: command not found` on Windows | Use Git Bash or WSL — don't run bash scripts in vanilla PowerShell/CMD |
-| `Permission denied` on launchme.sh | Run `chmod +x scripts/launchme.sh` first |
-| WSL can't find vault path | Windows drives are at `/mnt/c/`, `/mnt/d/` etc. in WSL |
-| Node not found in WSL | Run `sudo apt install nodejs npm -y` or use the nodesource script above |
-| Email / Calendar not working | See `docs/gws-setup-guide.md` for GWS setup |
-| `401 Unauthorized` (AChatGPT) | Check `ACHATGPT_API_KEY` in `.env` |
-| `429 Too Many Requests` | Quota exceeded — check your API dashboard |
-| Timeout on o3 | Set `ACHATGPT_REQUEST_TIMEOUT=90` in `.env` |
-| Vault structure looks unexpected | Say "show my vault structure" — the Architect will explain it |
-| `LARK_APP_ID and LARK_APP_SECRET must be set` | Set env vars (see `docs/lark-setup-guide.md`), then restart terminal |
-| `Lark auth error: code=10014` | App not published to workspace — publish it in the Lark developer console |
-| `HTTP 403` on Lark fetch | Missing API scope — add the required scope in the Lark console and republish |
-| `ModuleNotFoundError: fastmcp` | Run `pip install fastmcp httpx pydantic python-dotenv` |
-
----
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). The short version: open an issue, improve an agent or skill, add usage examples. All agents auto-respond in the user's language — write instructions in English.
-
----
-
-## License
-
-MIT. Credentials (`.env`) are gitignored and must never be committed.
+</div>

@@ -1,6 +1,7 @@
 # Build artifacts
 dist/
 logs/
+*.bak
 # macOS
 .DS_Store
 **/.DS_Store

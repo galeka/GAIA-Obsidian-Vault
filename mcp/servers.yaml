@@ -9,3 +9,18 @@ servers:
     url: "https://gcal.mcp.claude.com/mcp"
     env: {}
     exclude: []
+
+  # ── Lark (optional) ──────────────────────────────────────────────────────
+  # Requires LARK_APP_ID and LARK_APP_SECRET as system env vars (or .env file).
+  # Run: python3 mcp/lark-mcp-server.py
+  # Then register with: claude mcp add lark-mcp python3 mcp/lark-mcp-server.py
+  - name: lark-mcp
+    type: stdio
+    command: python3
+    args: ["mcp/lark-mcp-server.py"]
+    env:
+      LARK_APP_ID: "${LARK_APP_ID}"
+      LARK_APP_SECRET: "${LARK_APP_SECRET}"
+      LARK_API_BASE: "${LARK_API_BASE:-https://open.larksuite.com}"
+    optional: true
+    exclude: []

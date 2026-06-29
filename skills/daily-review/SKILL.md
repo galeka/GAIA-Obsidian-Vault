@@ -11,6 +11,8 @@ description: >
   ES: "revisión diaria", "empezar el día", "nota diaria", "fin del día", "cerrar el día".
   DE: "Tagesrückblick", "Tag beginnen", "Tagesnotiz", "Tagesabschluss", "Tag schließen".
   PT: "revisão diária", "começar o dia", "nota diária", "fim do dia", "fechar o dia".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

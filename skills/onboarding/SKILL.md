@@ -11,6 +11,9 @@ description: >
   DE: "Vault initialisieren", "Vault einrichten".
   PT: "inicializar o vault", "configurar o vault".
   JA: "Vaultを初期化", "Vaultをセットアップ".
+  ID: "inisialisasi vault", "setup vault", "onboarding", "konfigurasi vault".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

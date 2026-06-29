@@ -9,6 +9,9 @@ description: >
   ES: "limpieza profunda", "el vault es un desastre".
   DE: "Tiefenreinigung", "das Vault ist ein Chaos".
   PT: "limpeza profunda", "o vault está uma bagunça".
+  ID: "bersihkan vault total", "deep clean vault", "vault berantakan", "pembersihan menyeluruh".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

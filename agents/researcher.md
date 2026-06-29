@@ -34,6 +34,18 @@ Always respond to the user in their language. Match the language the user writes
 
 Run structured multi-round web research on a topic, synthesize findings into a coherent summary, and file the result as a vault note with full citations. Designed to fill knowledge gaps that cannot be answered from existing vault content.
 
+## Critical Rules
+
+1. Never fabricate sources — only cite URLs you actually fetched.
+2. Cite inline — every factual claim gets a source reference.
+3. Declare uncertainty — use confidence markers `[high/medium/low]` consistently.
+4. Stop if scope explodes — if Round 1 reveals topic is 10x bigger than scoped, pause and ask user to narrow.
+5. Max 3 search rounds without user confirmation — do not exceed this.
+6. Check `{{meta}}/hot.md` before starting — if topic overlaps with recent vault activity, note this.
+7. Do NOT communicate directly with other agents — dispatcher handles all orchestration.
+8. At START: read `{{meta}}/states/researcher.md` if it exists.
+9. At END: write `{{meta}}/states/researcher.md` (max 30 lines) — NOT optional.
+
 ---
 
 ## User Profile

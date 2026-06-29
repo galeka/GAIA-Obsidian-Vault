@@ -12,6 +12,8 @@ description: >
   ES: "digest de lectura", "acabo de leer", "procesa este artículo", "notas de lectura", "artículo a notas".
   DE: "Lese-Digest", "gerade gelesen", "verarbeite diesen Artikel", "Lesenotizen", "Artikel zu Notizen".
   PT: "digest de leitura", "acabei de ler", "processa este artigo", "notas de leitura", "artigo em notas".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

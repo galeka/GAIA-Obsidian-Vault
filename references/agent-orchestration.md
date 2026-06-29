@@ -143,6 +143,74 @@ Custom agents are created by the Architect and stored in `.platform/agents/`. Th
 
 ---
 
+## Validation Gate
+
+After an agent completes a task, the dispatcher performs a lightweight output validation before returning the result to the user or chaining the next agent.
+
+### When to validate
+
+Validate whenever the agent was asked to produce a specific output format (e.g., a meeting note with 4 required sections, a security report, a structured triage digest). Validation is NOT needed for conversational responses.
+
+### Validation criteria
+
+The dispatcher checks that:
+1. Output contains the expected structure (required sections present)
+2. Output does not contain placeholder text like `{{...}}` where real values were expected
+3. Output does not contradict the user's original request
+
+### Retry protocol
+
+If validation fails:
+1. **Retry once** — re-invoke the same agent with specific feedback: "Your output was missing [X]. Please regenerate with [X] included."
+2. **Retry twice** — if the second attempt also fails, escalate to the user with: "The agent was unable to produce the expected output after 2 attempts. Here is what it generated: [output]. Would you like to try again or accept this result?"
+3. **Max 2 retries** — never retry more than twice automatically. Always involve the user after 2 failures.
+
+### What counts as a validation failure
+
+- Required section is completely absent (e.g., `## Action Items` missing from meeting notes)
+- Output is less than 20% of the expected length for the task type
+- Output explicitly says "I cannot" or "I don't have access" when the task was within the agent's defined capabilities
+
+---
+
+## Parallel Dispatch
+
+Some user requests involve independent sub-tasks that can be executed by multiple agents simultaneously rather than sequentially. The dispatcher should recognize these patterns and invoke agents in parallel.
+
+### When to use parallel dispatch
+
+- User asks for a **combined report** from multiple sources (e.g., "summarize my emails AND calendar for this week" → Postman + Calendar scan run in parallel)
+- Multiple **independent cleanup tasks** exist (e.g., after inbox triage: Connector links notes while Sorter files the rest — independent operations)
+- A **research task** requires multiple search threads that don't depend on each other
+
+### How to signal parallel dispatch
+
+Agents can signal that their suggested next steps are **parallel-eligible** by using the `parallel: true` flag in their suggestion:
+
+```markdown
+### Suggested next agent
+- **Agent**: connector
+- **Reason**: 5 ML notes need cross-linking
+- **Context**: Notes filed to 03-Resources/Technology/ML/
+- **parallel**: true
+
+### Suggested next agent
+- **Agent**: architect
+- **Reason**: MOC missing for ML cluster
+- **Context**: No MOC in MOC/ folder for this topic
+- **parallel**: true
+```
+
+When both suggestions are marked `parallel: true`, the dispatcher may invoke both agents simultaneously if the platform supports concurrent subagent execution.
+
+### Parallel dispatch constraints
+
+- Maximum **2 agents** in parallel (to avoid context overload)
+- Never run agents with **write conflicts** in parallel (e.g., two agents writing to the same file)
+- If one parallel agent fails, the other continues independently — do not block
+
+---
+
 ## What Agents Should NOT Do
 
 - ❌ **Do NOT reference `Meta/agent-messages.md`** — the shared message board is deprecated

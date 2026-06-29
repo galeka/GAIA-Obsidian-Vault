@@ -10,6 +10,9 @@ description: >
   ES: "crear un nuevo agente", "agente personalizado".
   DE: "neuen Agenten erstellen".
   PT: "criar um novo agente".
+  ID: "buat agent baru", "agent kustom", "butuh agent baru", "buat crew member".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

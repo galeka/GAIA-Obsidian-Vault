@@ -12,6 +12,8 @@ description: >
   ES: "zettel builder", "crear una nota permanente", "nota perenne", "nota atómica".
   DE: "Zettel erstellen", "permanente Notiz", "Evergreen-Notiz", "atomare Notiz".
   PT: "zettel builder", "criar nota permanente", "nota perene", "nota atômica".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

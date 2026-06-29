@@ -10,6 +10,9 @@ description: >
   ES: "desfragmentar el vault", "reorganizar el vault".
   DE: "Vault defragmentieren", "Vault reorganisieren".
   PT: "desfragmentar o vault", "reorganizar o vault".
+  ID: "defragmentasi vault", "reorganisasi vault", "maintenance struktur", "defrag vault".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

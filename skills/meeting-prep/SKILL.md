@@ -9,6 +9,9 @@ description: >
   ES: "preparar la reunión", "brief para la reunión".
   DE: "Meeting vorbereiten", "Besprechung vorbereiten".
   PT: "preparar a reunião", "brief para o meeting".
+  ID: "persiapan meeting", "meeting prep", "briefing sebelum rapat", "siapkan call".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

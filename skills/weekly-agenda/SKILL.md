@@ -9,6 +9,9 @@ description: >
   ES: "agenda semanal", "qué hay esta semana".
   DE: "Wochenagenda", "Wochenübersicht".
   PT: "agenda semanal", "o que tem esta semana".
+  ID: "agenda mingguan", "apa saja minggu ini", "ringkasan minggu", "rencanakan minggu".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution

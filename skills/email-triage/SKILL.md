@@ -2,13 +2,17 @@
 name: email-triage
 description: >
   Scan and process unread emails. Scores by priority (VIP, urgency, deadlines),
-  classifies, saves relevant emails as vault notes, and generates a triage report. Triggers:
-  EN: "check my email", "what's in my inbox", "process emails", "email triage", "anything urgent in email?", "save important emails".
-  IT: "controlla le email", "cosa c'è nella mia inbox", "triage email", "processa le email", "email urgenti".
-  FR: "vérifier mes emails", "trier mes emails".
-  ES: "revisar mi correo", "triaje de emails".
-  DE: "E-Mails prüfen", "Posteingang sichten".
-  PT: "verificar meus emails", "triagem de emails".
+  classifies, saves relevant emails as vault notes, and generates a triage report.
+  Triggers:
+  EN: "email triage", "triage email", "scan inbox", "priority scan", "priority email scan".
+  IT: "triage email", "smista email priorità", "scansione inbox priorità".
+  FR: "triage email", "trier mes emails par priorité".
+  ES: "triaje de emails", "clasificar email por prioridad".
+  DE: "E-Mail Triage", "Posteingang priorisieren".
+  PT: "triagem de emails", "varredura prioritária da inbox".
+  ID: "triage email", "sortir email", "scan inbox prioritas".
+mode: skill
+model: mid
 ---
 
 ## Vault Path Resolution
@@ -471,4 +475,4 @@ If you detect that the user needs functionality that NO existing agent provides,
 ```
 
 For the full orchestration protocol, see `.claude/references/agent-orchestration.md`.
-For the agent registry, see `.claude/references/agents-registry.md`.
+For the agent registry, see `.claude/re
