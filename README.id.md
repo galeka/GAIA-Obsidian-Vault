@@ -37,7 +37,7 @@ Kamu bicara natural  →  GAIA routing  →  Agent bekerja  →  Vault diupdate
                                       │
               ┌───────────────────────┼───────────────────────┐
               ▼                       ▼                       ▼
-        🤖 10 Agents            ⚡ 18 Skills          🔌 Integrasi
+        🤖 11 Agents            ⚡ 19 Skills          🔌 Integrasi
         (reaktif, sekali jalan) (workflow multi-turn)  Gmail · Calendar
                                                         Web · Lark · GPT-4o
 ```
@@ -253,24 +253,42 @@ Lalu katakan: **"Initialize my vault"**
 
 ---
 
-## 💬 Contoh Penggunaan Sehari-hari
+## 💬 Skenario Penggunaan Nyata
+
+Biar kebayang manfaatnya di kehidupan sehari-hari, bukan cuma daftar command:
+
+**📖 Inget lagi apa yang kamu baca, tanpa usaha ekstra**
+
+Kamu baca artikel menarik, selesai baca satu bab buku, atau simpan resep masakan — biasanya semua itu cuma numpuk di tempat yang gak pernah kamu buka lagi. Cukup bilang *"I just read an article about [apa pun itu]"* dan GAIA mengubahnya jadi note singkat yang gampang dicari, terhubung ke hal lain yang pernah kamu tulis — jadi beberapa minggu kemudian kamu beneran bisa nemuin lagi, bukan cuma samar-samar inget "kayaknya dulu pernah baca soal ini."
+
+**🗓️ Masuk meeting apa pun dalam keadaan sudah siap**
+
+Wawancara kerja, telepon klien, atau ngobrol lagi sama kolega lama — bilang *"Prepare me for my 3pm meeting"* dan GAIA menarik kalender kamu, cari note dan email lama soal orang itu, lalu kasih ringkasan singkat. Gak perlu lagi buru-buru lima menit sebelumnya coba inget-inget obrolan terakhir kalian.
+
+**📥 Beresin tumpukan catatan berantakan dalam hitungan menit**
+
+Aplikasi catatan kamu jadi kuburan pikiran setengah jadi, memo suara buru-buru, dan link yang kamu simpan "buat dibaca nanti" tapi gak pernah dibaca. Bilang *"Triage my inbox"* dan GAIA yang sortir semuanya — nyimpen tiap catatan ke tempat yang tepat — daripada kamu ngabisin satu sore hari Minggu buat beresin itu semua.
+
+**🩺 Menangkap kekacauan sebelum makin parah**
+
+Setelah berbulan-bulan pakai sistem catatan apa pun, semuanya jadi berantakan — note dobel, link putus, cara pengaturan yang udah gak sesuai lagi sama cara kerja kamu sekarang. Bilang *"Check my vault health"* dan dapatkan daftar perbaikan yang jelas dan berprioritas — daripada setahun lagi baru sadar semuanya udah terlalu berantakan buat dibereskan.
+
+**🌐 Dapat satu jawaban jelas, bukan sepuluh tab browser**
+
+Daripada googling sesuatu dan tenggelam di sepuluh tab browser buat nyusun infonya sendiri, tanya *"Research [topik apa pun]"* — GAIA baca-baca, kumpulin fakta pentingnya, dan simpan jadi satu note yang rapi dan jelas, yang beneran bisa kamu buka lagi nanti.
+
+<details>
+<summary><strong>Referensi cepat command lainnya</strong></summary>
 
 ```
 Kamu:  "Do my daily review"
 GAIA:  [membuka note hari ini, pull kalender, tanya focus items]
 
-Kamu:  "I just read an article about zero-trust security"
-GAIA:  [jalankan /reading-digest → buat literature note → link ke zettels terkait]
-
 Kamu:  "What's on my plate this week?"
 GAIA:  [jalankan /weekly-agenda → gabungkan kalender + email + tasks vault]
-
-Kamu:  "Check my vault health"
-GAIA:  [jalankan /vault-audit → laporan audit 7-fase lengkap]
-
-Kamu:  "Prepare me for my 3pm meeting"
-GAIA:  [pull konteks peserta, note lama, dan email terkait]
 ```
+
+</details>
 
 ---
 

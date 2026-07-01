@@ -39,6 +39,40 @@ Kamu bicara   GAIA routing   Agent bekerja   Vault diupdate
 
 ---
 
+## Real-world scenarios / Skenario nyata
+
+**📖 Remembering what you read, without extra effort**
+
+You read an interesting article, finish a book chapter, or save a recipe — and normally it just disappears into a pile you never look at again. Instead, say *"I just read an article about [whatever it was]"* and GAIA turns it into a short, findable note connected to other things you've written — so weeks later you can actually find it again, instead of vaguely remembering "I read something about this once."
+
+> 🇮🇩 Kamu baca artikel menarik, selesai baca satu bab buku, atau simpan resep masakan — biasanya semua itu cuma numpuk di tempat yang gak pernah kamu buka lagi. Cukup bilang *"I just read an article about [apa pun itu]"* dan GAIA mengubahnya jadi note singkat yang gampang dicari, terhubung ke hal lain yang pernah kamu tulis — jadi beberapa minggu kemudian kamu beneran bisa nemuin lagi, bukan cuma samar-samar inget "kayaknya dulu pernah baca soal ini."
+
+**🗓️ Walking into any meeting already prepared**
+
+Job interview, client call, or catch-up with an old colleague — say *"Prepare me for my 3pm meeting"* and GAIA pulls your calendar, digs up past notes and emails about that person, and hands you a short brief. No more scrambling five minutes before, trying to remember what you talked about last time.
+
+> 🇮🇩 Wawancara kerja, telepon klien, atau ngobrol lagi sama kolega lama — bilang *"Prepare me for my 3pm meeting"* dan GAIA menarik kalender kamu, cari note dan email lama soal orang itu, lalu kasih ringkasan singkat. Gak perlu lagi buru-buru lima menit sebelumnya coba inget-inget obrolan terakhir kalian.
+
+**📥 Clearing a messy pile of notes in minutes**
+
+Your notes app is a graveyard of half-finished thoughts, quick voice memos, and links you saved "to read later" and never did. Say *"Triage my inbox"* and GAIA sorts through all of it — filing each one where it belongs — instead of you losing a Sunday afternoon to it.
+
+> 🇮🇩 Aplikasi catatan kamu jadi kuburan pikiran setengah jadi, memo suara buru-buru, dan link yang kamu simpan "buat dibaca nanti" tapi gak pernah dibaca. Bilang *"Triage my inbox"* dan GAIA yang sortir semuanya — nyimpen tiap catatan ke tempat yang tepat — daripada kamu ngabisin satu sore hari Minggu buat beresin itu semua.
+
+**🩺 Catching a mess before it takes over**
+
+After months of using any note-taking system, things get messy — duplicate notes, broken links, an organization scheme that stopped matching how you actually work. Say *"Check my vault health"* and get a clear, prioritized list of what to fix — instead of discovering a year from now that it's too messy to deal with.
+
+> 🇮🇩 Setelah berbulan-bulan pakai sistem catatan apa pun, semuanya jadi berantakan — note dobel, link putus, cara pengaturan yang udah gak sesuai lagi sama cara kerja kamu sekarang. Bilang *"Check my vault health"* dan dapatkan daftar perbaikan yang jelas dan berprioritas — daripada setahun lagi baru sadar semuanya udah terlalu berantakan buat dibereskan.
+
+**🌐 Getting one clear answer instead of ten open tabs**
+
+Instead of googling something and drowning in ten browser tabs trying to piece it together, ask *"Research [any topic]"* — GAIA reads around, pulls the key facts together, and saves them as one clear, organized note you can actually go back to.
+
+> 🇮🇩 Daripada googling sesuatu dan tenggelam di sepuluh tab browser buat nyusun infonya sendiri, tanya *"Research [topik apa pun]"* — GAIA baca-baca, kumpulin fakta pentingnya, dan simpan jadi satu note yang rapi dan jelas, yang beneran bisa kamu buka lagi nanti.
+
+---
+
 ## The crew / Anggota tim
 
 ### 🤖 11 Agents — reactive, one-shot
